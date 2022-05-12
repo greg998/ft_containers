@@ -6,7 +6,7 @@
 #    By: ggiquiau <ggiquiau@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/04 13:08:22 by ggiquiau          #+#    #+#              #
-#    Updated: 2022/05/11 16:14:00 by ggiquiau         ###   ########.fr        #
+#    Updated: 2022/05/12 16:20:29 by ggiquiau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ HEADERS			= $(addprefix includes/, vector.tpp)
 
 CXX  			=  c++
 
-CXXFLAGS		= -Wall -Wextra -std=c++98 -Iincludes -g3
+CXXFLAGS		= -Wall -Wextra -Iincludes -g3
 
 
 NAME 			= ex01

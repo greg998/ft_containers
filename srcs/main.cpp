@@ -4,6 +4,11 @@
 #include <stdlib.h>
 #include "vector.tpp"
 #include <vector>
+#include <cstdlib>
+#include <new>
+#include <limits>
+#include <iostream>
+#include <vector>
 
 
 int main(int argc, char** argv) {
@@ -17,6 +22,7 @@ int main(int argc, char** argv) {
 	std::cout << std::endl;
 	std::cout << vect.max_size() << std::endl;
 	std::cout << ve.max_size() << std::endl;
-
+	std::cout << "sizeof vector " << sizeof(ve) << std::endl;
+	std::cout << "sizeof ft vector " << sizeof(vect) << std::endl;
 	return (0);
 }
