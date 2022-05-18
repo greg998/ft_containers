@@ -1,24 +1,27 @@
 #ifndef VECTOR_TPP
 #define VECTOR_TPP
 #include <iostream>
+#include "random_access_iterator.tpp"
 
 namespace ft
 {
-	template<typename _Tp1>
+	template <typename _Tp1>
 	struct rebind
-	{ typedef std::allocator<_Tp1> other; };
+	{
+		typedef std::allocator<_Tp1> other;
+	};
 	template <class T, typename Alloc>
 	class vector_base
 	{
 	public:
 		typedef Alloc allocator_type;
-		typedef typename __gnu_cxx::__alloc_traits<Alloc>::template
-	rebind<T>::other _Tp_alloc_type;
+		typedef typename __gnu_cxx::__alloc_traits<Alloc>::template rebind<T>::other _Tp_alloc_type;
 		typedef typename __gnu_cxx::__alloc_traits<_Tp_alloc_type>::pointer
 			pointer;
-		vector_base() {};
-		vector_base(const allocator_type& __a)
-			:_impl(__a) {};
+		vector_base(){};
+		vector_base(const allocator_type &__a)
+			: _impl(__a){};
+
 	protected:
 		class vector_impl : public _Tp_alloc_type
 		{
@@ -27,29 +30,35 @@ namespace ft
 			pointer _end_data;
 			pointer _end_of_storage;
 			vector_impl() _GLIBCXX_NOEXCEPT_IF(
-	    		std::is_nothrow_default_constructible<_Tp_alloc_type>::value)
-			: _Tp_alloc_type()
-			{ }
-			vector_impl(_Tp_alloc_type const& __a) _GLIBCXX_NOEXCEPT
-			: _Tp_alloc_type(__a)
-			{ }
+				std::is_nothrow_default_constructible<_Tp_alloc_type>::value)
+				: _Tp_alloc_type()
+			{
+			}
+			vector_impl(_Tp_alloc_type const &__a) _GLIBCXX_NOEXCEPT
+				: _Tp_alloc_type(__a)
+			{
+			}
 		};
 		vector_impl _impl;
 	};
 	template <class T, class Alloc = std::allocator<T> >
-	class vector: public vector_base<T,Alloc>
+	class vector : public vector_base<T, Alloc>
 	{
 	public:
-		typedef vector_base<T, Alloc>			Base;
+
+		typedef vector_base<T, Alloc>
+			Base;
 		typedef T value_type;
 		typedef size_t size_type;
 		typedef Alloc allocator_type;
 		typedef typename vector_base<T, Alloc>::_Tp_alloc_type _Tp_alloc_type;
-      typedef __gnu_cxx::__alloc_traits<_Tp_alloc_type>	_Alloc_traits;
+		typedef __gnu_cxx::__alloc_traits<_Tp_alloc_type> _Alloc_traits;
 		typedef typename _Alloc_traits::reference reference;
 		typedef typename _Alloc_traits::const_reference const_reference;
-		typedef typename _Alloc_traits::pointer pointer;
+		typedef typename Base::pointer pointer;
 		typedef typename _Alloc_traits::const_pointer const_pointer;
+		typedef random_access_iterator<pointer, vector> iterator;
+      	typedef random_access_iterator<const_pointer, vector> const_iterator;
 
 		explicit vector(const allocator_type &alloc = allocator_type())
 			: Base(alloc)
@@ -86,10 +95,22 @@ namespace ft
 			get_allocator().deallocate(_impl._data, capacity());
 		}
 		vector &operator=(const vector &x);
-		// iterator begin();
-		// const_iterator begin() const;
-		// iterator end();
-		// const_iterator end() const;
+		iterator begin()
+		{
+			return (iterator(_impl._data));
+		}
+		const_iterator begin() const
+		{
+			return (const_iterator(_impl._data));
+		}
+		iterator end()
+		{
+			return (iterator(_impl._end_data));
+		}
+		const_iterator end() const
+		{
+			return (const_iterator(_impl._end_data));
+		}
 		// reverse_iterator rbegin();
 		// const_reverse_iterator rbegin() const;
 		// reverse_iterator rend();
@@ -183,7 +204,7 @@ namespace ft
 		void pop_back();
 		// iterator insert (iterator position, const value_type& val);
 		// void insert (iterator position, size_type n, const value_type& val);
-		//template <class InputIterator>
+		// template <class InputIterator>
 		// void insert (iterator position, InputIterator first, InputIterator last);
 		// iterator erase (iterator position);
 		// iterator erase (iterator first, iterator last);
@@ -216,8 +237,8 @@ namespace ft
 			return allocator_type(_M_get_Tp_allocator());
 		}
 
-		private:
-			using Base::_impl;
+	private:
+		using Base::_impl;
 	};
 }
 
