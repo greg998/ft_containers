@@ -1,4 +1,0 @@
-#ifndef RANDOM_ACCESS_ITERATOR
-# define RANDOM_ACCESS_ITERATOR
-
-#endif
