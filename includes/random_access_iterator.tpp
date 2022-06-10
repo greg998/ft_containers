@@ -9,7 +9,7 @@ namespace ft
 	class random_access_iterator
 	{
 	protected:
-		Iterator current;
+		Iterator _current;
 		typedef iterator_traits<Iterator> _traits_type;
 
 	public:
@@ -21,11 +21,11 @@ namespace ft
 		typedef typename _traits_type::pointer pointer;
 
 		random_access_iterator()
-			: current(Iterator())
+			: _current(Iterator())
 		{
 		}
 		explicit random_access_iterator(const Iterator &src)
-			: current(src)
+			: _current(src)
 		{
 		}
 
@@ -34,75 +34,75 @@ namespace ft
 															typename __gnu_cxx::__enable_if<
 																(std::__are_same<_Iter, typename Container::pointer>::__value),
 																Container>::__type> &__i)
-			: current(__i.base()) {}
+			: _current(__i.base()) {}
 
 		const Iterator &base(void) const
 		{
-			return (current);
+			return (_current);
 		}
 
 		random_access_iterator &operator=(const random_access_iterator &rhs)
 		{
-			current = rhs.current;
+			_current = rhs._current;
 			return (*this);
 		}
 
 		// bool operator!=(const random_access_iterator &rhs)
 		// {
-		// 	return (current != rhs.current);
+		// 	return (_current != rhs._current);
 		// }
 
 		reference operator*(void) const
 		{
-			return (*current);
+			return (*_current);
 		}
 
 		pointer operator->(void) const
 		{
-			return (current);
+			return (_current);
 		}
 
 		random_access_iterator &operator++(void)
 		{
-			++current;
+			++_current;
 			return (*this);
 		}
 
 		random_access_iterator operator++(int)
 		{
-			return (random_access_iterator(current++));
+			return (random_access_iterator(_current++));
 		}
 
 		random_access_iterator &operator--(void)
 		{
-			--current;
+			--_current;
 			return (*this);
 		}
 
 		random_access_iterator operator--(int)
 		{
-			return (random_access_iterator(current--));
+			return (random_access_iterator(_current--));
 		}
 
 		random_access_iterator operator+(difference_type rhs) const
 		{
-			return (random_access_iterator(current + rhs));
+			return (random_access_iterator(_current + rhs));
 		}
 
 		random_access_iterator operator-(difference_type rhs) const
 		{
-			return (random_access_iterator(current - rhs));
+			return (random_access_iterator(_current - rhs));
 		}
 
 		random_access_iterator &operator+=(difference_type rhs)
 		{
-			current += rhs;
+			_current += rhs;
 			return (*this);
 		}
 
 		random_access_iterator &operator-=(difference_type rhs)
 		{
-			current -= rhs;
+			_current -= rhs;
 			return (*this);
 		}
 

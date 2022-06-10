@@ -115,5 +115,6 @@ int main() {
 
   ft::map<int, int> mymap;
   std::cout << sizeof(mymap) << std::endl;
+  mymap.insert(ft::make_pair(1,1));
   return 0;
 }
