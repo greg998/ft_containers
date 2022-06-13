@@ -6,7 +6,7 @@
 #    By: ggiquiau <ggiquiau@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/04 13:08:22 by ggiquiau          #+#    #+#              #
-#    Updated: 2022/06/08 14:14:23 by ggiquiau         ###   ########.fr        #
+#    Updated: 2022/06/13 13:54:36 by ggiquiau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,7 +51,7 @@ test:
 	@./${NAME}
 debug:
 	@${MAKE} TEST=1
-	@valgrind --leak-check=full ./${NAME}
+	@valgrind --leak-check=full --track-origins=yes ./${NAME}
 	
 clean:
 				${RM} ${OBJS} ${OBJS_BONUS}

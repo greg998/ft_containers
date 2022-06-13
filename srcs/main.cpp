@@ -113,8 +113,22 @@ int main() {
   // std::cout << '\n';
   // fifth.reserve(10);
 
-  ft::map<int, int> mymap;
-  std::cout << sizeof(mymap) << std::endl;
-  mymap.insert(ft::make_pair(1,1));
+  ft::map<char,int> mymap;
+
+  // first insert function version (single parameter):
+  mymap.insert ( ft::pair<char,int>('a',100) );
+  mymap.insert ( ft::pair<char,int>('z',200) );
+
+  ft::pair<ft::map<char,int>::iterator,bool> ret;
+  ret = mymap.insert ( ft::pair<char,int>('z',500) );
+  if (ret.second==false) {
+    std::cout << "element 'z' already existed";
+    std::cout << " with a value of " << ret.first->second << '\n';
+  }
+
+  ft::map<char, int>::iterator it (mymap.end());
+
+  std::cout << it->first;
+  
   return 0;
 }

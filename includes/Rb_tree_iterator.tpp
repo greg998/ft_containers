@@ -17,7 +17,7 @@ namespace ft
         Rb_node *right;
         // Val data;
     public:
-        Rb_node(/* args */): parent(), left(), right() {}
+        Rb_node(/* args */): color(RED), parent(), left(), right() {}
         ~Rb_node() {}
     };
     template <typename Val>
@@ -27,14 +27,9 @@ namespace ft
         Node(Val val): Rb_node(), data(val)
         {
         }
-
-        Val *val_ptr()
-        {
-            return (&data);
-        }
     };
 
-    template <typename T>
+    template <typename T, typename U>
     class Rb_tree_iterator
     {
     private:
@@ -48,7 +43,7 @@ namespace ft
         typedef typename _traits_type::difference_type difference_type;
         typedef typename _traits_type::reference reference;
         typedef typename _traits_type::pointer pointer;
-		typedef Node<T>* link_type;
+		typedef Node<U>* link_type;
 
 
         Rb_tree_iterator()
@@ -58,18 +53,19 @@ namespace ft
         explicit Rb_tree_iterator(Rb_node *src)
             : _current(src)
         {
+            //std::cout << "here " << (static_cast<link_type>(_current)->data);
         }
 
         reference
         operator*() const _GLIBCXX_NOEXCEPT
         {
-            return (*static_cast<link_type>(_current)->data);
+            return (static_cast<link_type>(_current)->data);
         }
 
         pointer
         operator->() const _GLIBCXX_NOEXCEPT
         {
-            return (static_cast<link_type>(_current)->data);
+            return (&static_cast<link_type>(_current)->data);
         }
 
         inline friend bool

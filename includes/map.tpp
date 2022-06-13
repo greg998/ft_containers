@@ -20,34 +20,70 @@ namespace ft
 		typedef size_t size_type;
 		typedef ptrdiff_t difference_type;
 		typedef Alloc allocator_type;
-		typedef Rb_tree_iterator<pointer> iterator;
-		typedef Rb_tree_iterator<const_pointer> const_iterator;
+		typedef Rb_tree_iterator<pointer, value_type> iterator;
+		typedef Rb_tree_iterator<const_pointer, value_type> const_iterator;
 
 	private:
 		typedef typename __gnu_cxx::__alloc_traits<Alloc>::template rebind<Node<Val> >::other Node_allocator;
 		typedef __gnu_cxx::__alloc_traits<Node_allocator> Alloc_traits;
 
-		struct map_impl : public Node_allocator
+		// inherit Rb_node for use _impl address for iterator end
+		struct Header
 		{
-			Rb_node *root;
-			Rb_node *start;
-			Rb_node *finish;
-			Compare comp;
+			Rb_node header;
 			size_t node_count;
-			map_impl() : Node_allocator(), root(), start(), finish()
+			Header()
+			{
+				header.color = RED;
+				header.parent = 0;
+				header.left = &header;
+				header.right = &header;
+				node_count = 0;
+			}
+		};
+
+		struct map_impl : public Node_allocator, Header
+		{
+			Compare comp;
+			map_impl() : Node_allocator(), Rb_node()
 			{
 			}
 			map_impl(const Compare &comp,
-					 const allocator_type &a) : Node_allocator(a), root(), start(), finish(), comp(comp)
+					 const allocator_type &a) : Node_allocator(a), Header(), comp(comp)
 			{
 			}
-			map_impl(const map_impl &src) : Node_allocator(src), root(), start(), finish(), comp(src.comp)
+			map_impl(const map_impl &src) : Node_allocator(src), Header(), comp(src.comp)
 			{
 			}
 		};
 		map_impl _impl;
 		typedef Node<Val> *link_type;
 		typedef const Node<Val> *const_link_type;
+
+		Rb_node *&root()
+		{
+			return (_impl.header.parent);
+		}
+		const Rb_node *root() const
+		{
+			return (_impl.parent);
+		}
+		Rb_node *&_begin()
+		{
+			return (_impl.header.left);
+		}
+		const Rb_node *_begin() const
+		{
+			return (_impl.left);
+		}
+		Rb_node *_end()
+		{
+			return (_impl.right);
+		}
+		const Rb_node *end() const
+		{
+			return (_impl.right);
+		}
 
 		static link_type left(Rb_node *n)
 		{
@@ -85,33 +121,54 @@ namespace ft
 
 		iterator begin()
 		{
-			return (iterator(_impl.start));
+			return (iterator(_impl.left));
 		}
 
 		iterator end()
 		{
-			return (iterator(_impl.finish));
+			return (iterator(&_impl.header));
 		}
 
 		iterator find(const key_type &k)
 		{
-			Rb_node *root = _impl.root;
-			while (root)
+			Rb_node *tmp = root();
+			while (tmp)
 			{
-				if (_impl.comp(k, value(root).first))
+				if (_impl.comp(k, value(tmp).first))
 				{
-					root = root->left;
+					tmp = tmp->left;
 				}
-				else if (_impl.comp(value(root).first, k))
+				else if (_impl.comp(value(tmp).first, k))
 				{
-					root = root->right;
+					tmp = tmp->right;
 				}
 				else
-					return (iterator(root));
+				{
+					// iterator it (tmp);
+					// std::cout << "tmp " << it->first;
+					return (iterator(tmp));
+				}
 			}
 			return (end());
 		}
-		const_iterator find(const key_type &k) const;
+		const_iterator find(const key_type &k) const
+		{
+			Rb_node *tmp = root();
+			while (tmp)
+			{
+				if (_impl.comp(k, value(tmp).first))
+				{
+					tmp = tmp->left;
+				}
+				else if (_impl.comp(value(tmp).first, k))
+				{
+					tmp = tmp->right;
+				}
+				else
+					return (const_iterator(tmp));
+			}
+			return (end());
+		}
 
 		pair<iterator, bool> insert(const value_type &val)
 		{
@@ -120,10 +177,45 @@ namespace ft
 			if (it != end())
 				return (ft::make_pair(it, false));
 			link_type newNode = get_Node_allocator().allocate(1);
-			//Node<Val> a(val);
-			get_allocator().construct(newNode->val_ptr(), val);
-			std::cout << newNode->data.first;
-			return (ft::make_pair(it, true));
+			// Node<Val> a(val);
+			get_Node_allocator().construct(newNode, val);
+			Rb_node *tmp(root());
+
+			if (!tmp)
+			{
+				root() = newNode;
+				_begin() = newNode;
+			}
+			else
+			{
+				while (1)
+				{
+					if (_impl.comp(val.first, value(tmp).first))
+					{
+						if (tmp->left)
+							tmp = tmp->left;
+						else
+						{
+							//if (value(_begin))
+							tmp->left = newNode;
+							break;
+						}
+					}
+					else
+					{
+						if (tmp->right)
+							tmp = tmp->right;
+						else
+						{
+							tmp->right = newNode;
+							break;
+						}
+					}
+				}
+			}
+			_impl.node_count++;
+			// std::cout << value(_impl.tmp).first;
+			return (ft::make_pair(iterator(newNode), true));
 		}
 
 		Node_allocator &
@@ -160,10 +252,24 @@ namespace ft
 		typedef typename Alloc::pointer pointer;
 		typedef typename Alloc::const_pointer const_pointer;
 		// iterator
-		typedef Rb_tree_iterator<pointer> iterator;
-		typedef Rb_tree_iterator<const_pointer> const_iterator;
+		typedef Rb_tree_iterator<pointer, value_type> iterator;
+		typedef Rb_tree_iterator<const_pointer, value_type> const_iterator;
 		typedef ptrdiff_t difference_type;
 		typedef size_t size_type;
+
+		class value_compare
+		{
+		protected:
+			Compare comp;
+			value_compare(Compare c)
+				: comp(c) {}
+
+		public:
+			bool operator()(const value_type &lhs, const value_type &rhs) const
+			{
+				return (comp(lhs.first, rhs.first));
+			}
+		};
 
 	private:
 		typedef typename __gnu_cxx::__alloc_traits<Alloc>::template rebind<value_type>::other Pair_alloc_type;
