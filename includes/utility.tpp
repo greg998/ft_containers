@@ -5,6 +5,8 @@ namespace ft
     template <class T1, class T2>
     struct pair
     {
+        typedef T1 first_type;
+        typedef T2 second_type;
         T1 first;
         T2 second;
         pair() : first(), second()
@@ -20,6 +22,42 @@ namespace ft
         pair(const T1 &a, const T2 &b)
             : first(a), second(b)
         {
+        }
+
+        friend bool
+        operator==(const pair<T1, T2> &lhs, const pair<T1, T2> &rhs)
+        {
+            return (lhs.first == rhs.first && lhs.second == rhs.second);
+        }
+
+        friend bool
+        operator<(const pair<T1, T2> &lhs, const pair<T1, T2> &rhs)
+        {
+            return (lhs.first < rhs.first || lhs.second < rhs.second);
+        }
+
+        friend bool
+        operator!=(const pair<T1, T2> &lhs, const pair<T1, T2> &rhs)
+        {
+            return (!(lhs == rhs));
+        }
+
+        friend bool
+        operator>(const pair<T1, T2> &lhs, const pair<T1, T2> &rhs)
+        {
+            return (rhs < lhs);
+        }
+
+        friend bool
+        operator<=(const pair<T1, T2> &lhs, const pair<T1, T2> &rhs)
+        {
+            return (!(rhs < lhs));
+        }
+
+        friend bool
+        operator>=(const pair<T1, T2> &lhs, const pair<T1, T2> &rhs)
+        {
+            return (!(lhs < rhs));
         }
     };
 

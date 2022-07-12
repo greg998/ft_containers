@@ -31,9 +31,7 @@ namespace ft
 
 		template <typename _Iter>
 		random_access_iterator(const random_access_iterator<_Iter,
-															typename __gnu_cxx::__enable_if<
-																(std::__are_same<_Iter, typename Container::pointer>::__value),
-																Container>::__type> &__i)
+															Container> &__i)
 			: _current(__i.base()) {}
 
 		const Iterator &base(void) const

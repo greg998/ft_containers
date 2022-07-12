@@ -16,8 +16,9 @@
 #include <stack>
 #include <map>
 #include "map.tpp"
+#include <set>
 
-//#define ft std
+#define ft std
 
 namespace mmap_allocator_namespace
 {
@@ -56,31 +57,37 @@ namespace mmap_allocator_namespace
   };
 }
 
-template<typename T>
-void	display_vector_info(const ft::vector<T> &vect)
+template <typename T>
+void display_vector_info(const ft::vector<T> &vect)
 {
-	std::cout << "size " << vect.size() << std::endl;
-	std::cout << "max_size " << vect.max_size() << std::endl;
-	std::cout << "capacity " << vect.capacity() << std::endl;
-	std::cout << "empty " << vect.empty() << std::endl;
+  std::cout << "size " << vect.size() << std::endl;
+  std::cout << "max_size " << vect.max_size() << std::endl;
+  std::cout << "capacity " << vect.capacity() << std::endl;
+  std::cout << "empty " << vect.empty() << std::endl;
 }
 
 class A
 {
 private:
   int x;
+
 public:
-  A(){}
-  A(int x){std::cout << "A " << x << std::endl;this->x = x;}
-  A(const A &src):x(src.x){std::cout << "copy A " << x << std::endl;}
+  A() {}
+  A(int x)
+  {
+    std::cout << "A " << x << std::endl;
+    this->x = x;
+  }
+  A(const A &src) : x(src.x) { std::cout << "copy A " << x << std::endl; }
   const A &operator=(const A &rhs)
   {
-    //std::cout << "A assignment" << std::endl;
+    // std::cout << "A assignment" << std::endl;
     x = rhs.x;
     return *this;
   }
-  ~A(){
-    std::cout << "A destructor " <<  x << std::endl;
+  ~A()
+  {
+    std::cout << "A destructor " << x << std::endl;
   }
   friend std::ostream &operator<<(std::ostream &o, const A &rhs)
   {
@@ -89,9 +96,9 @@ public:
   }
 };
 
-
-int main() {
-	// ft::vector<A> first;                               // empty vector of ints
+int main()
+{
+  // ft::vector<A> first;                               // empty vector of ints
   // std::cout << "-----------------\n";
   // ft::vector<A> second (4,100);                       // four ints with value 100
   // std::cout << "-----------------\n";
@@ -100,7 +107,7 @@ int main() {
   // ft::vector<A> fourth (third);                       // a copy of third
   // // // the iterator constructor can also be used to construct from arrays:
   // int myints[] = {16,2,77,29};
- 
+
   // ft::vector<A> fifth (myints, myints + sizeof(myints) / sizeof(int) );
 
   // std::cout << "The contents of fifth are:";
@@ -113,22 +120,9 @@ int main() {
   // std::cout << '\n';
   // fifth.reserve(10);
 
-  ft::map<char,int> mymap;
-
-  // first insert function version (single parameter):
-  mymap.insert ( ft::pair<char,int>('a',100) );
-  mymap.insert ( ft::pair<char,int>('z',200) );
-
-  ft::pair<ft::map<char,int>::iterator,bool> ret;
-  ret = mymap.insert ( ft::pair<char,int>('z',500) );
-  if (ret.second==false) {
-    std::cout << "element 'z' already existed";
-    std::cout << " with a value of " << ret.first->second << '\n';
-  }
-
-  ft::map<char, int>::iterator it (mymap.end());
-
-  std::cout << it->first;
-  
+  ft::map<char, int> ve;
+  ft::map<char, int>::const_iterator itx (ve.begin());
+  ft::map<char, int>::const_iterator te(itx);
+  std::pair
   return 0;
 }
