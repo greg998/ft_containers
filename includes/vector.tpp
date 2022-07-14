@@ -470,9 +470,6 @@ namespace ft
 		return (!(rhs < lhs));
 	}
 
-	/// Based on operator==
-
-	/// Based on operator<
 	template <typename T, typename Alloc>
 	inline bool
 	operator>(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs)
@@ -480,9 +477,6 @@ namespace ft
 		return (rhs < lhs);
 	}
 
-	/// Based on operator<
-
-	/// Based on operator<
 	template <typename T, typename Alloc>
 	inline bool
 	operator>=(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs)
@@ -490,7 +484,6 @@ namespace ft
 		return (!(lhs < rhs));
 	}
 
-	/// See std::vector::swap().
 	template <typename T, typename Alloc>
 	inline void
 	swap(vector<T, Alloc> &x, vector<T, Alloc> &y)
