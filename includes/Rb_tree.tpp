@@ -872,13 +872,13 @@ namespace ft
         Node_allocator &
         get_Node_allocator()
         {
-            return this->_impl;
+            return (this->_impl);
         }
 
         const Node_allocator &
         get_Node_allocator() const
         {
-            return this->_impl;
+            return (this->_impl);
         }
         allocator_type get_allocator() const
         {

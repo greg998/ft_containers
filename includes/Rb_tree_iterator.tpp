@@ -85,15 +85,6 @@ namespace ft
         {
         }
 
-        // Rb_tree_iterator(const Rb_node *src)
-        //     : _current(src)
-        // {
-        // }
-
-        // operator Rb_tree_iterator<pointer>()
-        // {
-        //     return Rb_tree_iterator<pointer>(_current);
-        // }
 		Rb_tree_iterator(const Rb_tree_iterator<value_type*> &src)
 			: _current(src.base()) {}
         

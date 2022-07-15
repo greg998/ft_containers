@@ -6,7 +6,7 @@
 #    By: ggiquiau <ggiquiau@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/04 13:08:22 by ggiquiau          #+#    #+#              #
-#    Updated: 2022/07/14 19:18:45 by ggiquiau         ###   ########.fr        #
+#    Updated: 2022/07/15 15:54:43 by ggiquiau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ HEADERS			= $(addprefix includes/, vector.tpp iterator.tpp iterator_tags.hpp ite
 
 CXX  			=  c++
 
-CXXFLAGS		= -Wall -Wextra -Werror -std=c++98 -Iincludes -Itests -DNS=\"$(NS)\"
+CXXFLAGS		= -Wall -Wextra -std=c++98 -Iincludes -Itests -DNS=\"$(NS)\"
 
 RM 				= rm -f
 

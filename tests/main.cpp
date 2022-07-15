@@ -28,6 +28,13 @@ int main(int argc, char **argv)
     tester.addTest("vector", "vect_get_allocator.cpp", true);
     tester.addTest("vector", "vect_relation_op.cpp", true);
 
+    tester.addTest("stack", "stack_constructor.cpp", true);
+    tester.addTest("stack", "stack_empty.cpp", true);
+    tester.addTest("stack", "stack_size.cpp", true);
+    tester.addTest("stack", "stack_top.cpp", true);
+    tester.addTest("stack", "stack_push_pop.cpp", true);
+    tester.addTest("stack", "stack_relation_op.cpp", true);
+
     tester.addTest("map", "map_constructor.cpp", true);
     tester.addTest("map", "map_operator=.cpp", true);
     tester.addTest("map", "map_begin_end.cpp", true);
@@ -48,6 +55,28 @@ int main(int argc, char **argv)
     tester.addTest("map", "map_equal_range.cpp", true);
     tester.addTest("map", "map_get_allocator.cpp", true);
     tester.addTest("map", "map_relation_op.cpp", true);
+
+    tester.addTest("set", "set_constructor.cpp", true);
+    tester.addTest("set", "set_operator=.cpp", true);
+    tester.addTest("set", "set_begin_end.cpp", true);
+    tester.addTest("set", "set_rbegin_rend.cpp", true);
+    tester.addTest("set", "set_empty.cpp", true);
+    tester.addTest("set", "set_size.cpp", true);
+    tester.addTest("set", "set_max_size.cpp", true);
+    tester.addTest("set", "set_insert.cpp", true);
+    tester.addTest("set", "set_erase.cpp", true);
+    tester.addTest("set", "set_swap.cpp", true);
+    tester.addTest("set", "set_clear.cpp", true);
+    tester.addTest("set", "set_key_comp.cpp", true);
+    tester.addTest("set", "set_value_comp.cpp", true);
+    tester.addTest("set", "set_find.cpp", true);
+    tester.addTest("set", "set_count.cpp", true);
+    tester.addTest("set", "set_lower_upper_bound.cpp", true);
+    tester.addTest("set", "set_equal_range.cpp", true);
+    tester.addTest("set", "set_get_allocator.cpp", true);
+    tester.addTest("set", "set_relation_op.cpp", true);
+
+    
     if (argc == 2)
         tester.runCategory(argv[1]);
     else if (argc == 3)
