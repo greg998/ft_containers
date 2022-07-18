@@ -17,6 +17,17 @@ UnitTest::UnitTest(std::string fname)
 }
 UnitTest::~UnitTest()
 {
+    close_fds();
+}
+
+UnitTest::UnitTest(const UnitTest &src): _fname(src._fname), _path(src._path), _shouldCompile(src._shouldCompile), _compile(src._compile), _execTime(src._execTime), _sig(0)
+{
+    bzero(fds, sizeof(fds));
+}
+
+
+void UnitTest::close_fds()
+{
     if (fds[0] > 0)
         close(fds[0]);
     if (fds[1] > 0)
@@ -51,12 +62,13 @@ bool UnitTest::compile(const std::string &ns)
     _compile = WEXITSTATUS(st) == 0;
     return (_compile);
 }
-void UnitTest::exec(bool redir)
+void UnitTest::exec()
 {
     int st;
     struct timespec s, e;
 
-    if (redir && pipe(fds) == -1)
+    close_fds();
+    if (pipe(fds) == -1)
         throw TestException("pipe: " + std::string(strerror(errno)));
     clock_gettime(CLOCK_MONOTONIC, &s);
 
@@ -65,11 +77,8 @@ void UnitTest::exec(bool redir)
         throw TestException("fork: " + std::string(strerror(errno)));
     if (!p)
     {
-        if (redir)
-        {
-            dup2(fds[1], 1);
-            close(fds[0]);
-        }
+        dup2(fds[1], 1);
+        close(fds[0]);
         char **const args = new char *[1];
         *args = NULL;
         execvp("./a.out", args);
@@ -83,6 +92,9 @@ void UnitTest::exec(bool redir)
         clock_gettime(CLOCK_MONOTONIC, &e);
         _execTime = (double)(e.tv_sec - s.tv_sec) + (double)(e.tv_nsec - s.tv_nsec) / 1e+9;
         readOutput();
+        #ifndef CMP
+            std::cout << _output;
+        #endif
     }
 }
 

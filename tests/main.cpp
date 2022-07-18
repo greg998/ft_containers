@@ -81,16 +81,20 @@ int main(int argc, char **argv)
         if (argc == 2)
 #ifndef CMP
             tester.runCategory(argv[1]);
+#else
+            tester.compareCategoryTo(argv[1], "std");
 #endif
         else if (argc == 3)
 #ifndef CMP
             tester.runTest(argv[1], argv[2]);
 #else
-            tester.compareTo(argv[1], argv[2]);
+            tester.compareTo(argv[1], argv[2], "std");
 #endif
         else if (argc == 1)
 #ifndef CMP
             tester.runAll();
+#else
+            tester.compareAllTo("std");
 #endif
         else
             std::cerr << "Bad args" << std::endl;

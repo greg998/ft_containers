@@ -23,13 +23,15 @@ private:
 
 public:
     UnitTest(const std::string &category, const std::string &fname, bool shouldCompile);
+    UnitTest(const UnitTest &src);
     UnitTest(std::string fname);
     ~UnitTest();
 
-    void exec(bool redir = false);
+    void exec();
     bool compile(const std::string &ns);
     bool compile() const;
     void readOutput();
+    void close_fds();
     double getExecTime() const;
     const std::string & getFname() const;
     double getSig() const;

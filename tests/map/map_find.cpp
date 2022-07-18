@@ -19,6 +19,5 @@ int main()
     std::cout << "a => " << mymap.find('a')->second << '\n';
     std::cout << "c => " << mymap.find('c')->second << '\n';
     std::cout << "d => " << mymap.find('d')->second << '\n';
-
     return 0;
 }

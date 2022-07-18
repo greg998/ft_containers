@@ -6,7 +6,7 @@
 #    By: ggiquiau <ggiquiau@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/04 13:08:22 by ggiquiau          #+#    #+#              #
-#    Updated: 2022/07/18 16:17:20 by ggiquiau         ###   ########.fr        #
+#    Updated: 2022/07/18 18:35:16 by ggiquiau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,9 @@ HEADERS			= $(addprefix includes/, vector.tpp iterator.tpp iterator_tags.hpp ite
 CXX  			=  c++
 
 CXXFLAGS		= -Wall -Wextra -std=c++98 -Iincludes -Itests -DNS=\"$(NS)\"
+ifdef CMP
+CXXFLAGS		+= -DCMP=1
+endif
 
 RM 				= rm -f
 
@@ -38,7 +41,7 @@ ${OBJS_DIR}/$(DIR)/%.o:	tests/%.cpp ${HEADERS}
 all:
 			make ft NS=ft DIR=ft
 			make std NS=std DIR=std
-			make cmp NS=ft DIR=cmp
+			make cmp NS=ft DIR=cmp CMP=1
 
 ft:		$(OBJS)
 		${CXX} ${OBJS} ${CXXFLAGS} ${LDFLAGS} -o ft
@@ -47,7 +50,7 @@ std:	$(OBJS)
 		${CXX} ${OBJS} ${CXXFLAGS} ${LDFLAGS} -o std
 			
 cmp:	$(OBJS)
-		${CXX} ${OBJS} ${CXXFLAGS} ${LDFLAGS} -DCMP -o cmp
+		${CXX} ${OBJS} ${CXXFLAGS} ${LDFLAGS} -o cmp
 		
 clean:
 				make clean2 DIR=ft
