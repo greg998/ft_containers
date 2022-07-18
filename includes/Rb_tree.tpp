@@ -59,7 +59,7 @@ namespace ft
                      const allocator_type &a) : Node_allocator(a), Header(), comp(comp)
             {
             }
-            map_impl(const map_impl &src)
+            map_impl(const map_impl &src) : Node_allocator(src)
             {
                 *this = src;
             }

@@ -8,7 +8,7 @@ int main()
     mymap['b'] = 20;
     mymap['c'] = 30;
 
-    std::pair<NS::map<char, int>::iterator, NS::map<char, int>::iterator> ret;
+    NS::pair<NS::map<char, int>::iterator, NS::map<char, int>::iterator> ret;
     ret = mymap.equal_range('b');
 
     std::cout << "lower bound points to: ";

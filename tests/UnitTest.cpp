@@ -1,16 +1,29 @@
 #include "UnitTest.hpp"
+#include <sys/times.h>
+#include <sys/resource.h>
+#include <stdio.h>
+#include <time.h>
 
 UnitTest::UnitTest(const std::string &category, const std::string &fname, bool shouldCompile)
-    : _fname(fname), _path("tests/" + category + "/" + fname), _shouldCompile(shouldCompile)
+    : _fname(fname), _path("tests/" + category + "/" + fname), _shouldCompile(shouldCompile), _sig(0)
 {
+    bzero(fds, sizeof(fds));
 }
 
 UnitTest::UnitTest(std::string fname)
-    : _fname(fname)
+    : _fname(fname), _sig(0)
 {
+    bzero(fds, sizeof(fds));
+}
+UnitTest::~UnitTest()
+{
+    if (fds[0] > 0)
+        close(fds[0]);
+    if (fds[1] > 0)
+        close(fds[1]);
 }
 
-bool UnitTest::compile(const std::string &ns) const
+bool UnitTest::compile(const std::string &ns)
 {
     int st = 0;
     pid_t p = fork();
@@ -35,21 +48,81 @@ bool UnitTest::compile(const std::string &ns) const
         exit(2);
     }
     waitpid(p, &st, 0);
-    std::cout << "here " << WEXITSTATUS(st) << std::endl;
-    return (WEXITSTATUS(st) == 0);
+    _compile = WEXITSTATUS(st) == 0;
+    return (_compile);
 }
-void UnitTest::exec(void) const
+void UnitTest::exec(bool redir)
 {
-    int st = 0;
+    int st;
+    struct timespec s, e;
+
+    if (redir && pipe(fds) == -1)
+        throw TestException("pipe: " + std::string(strerror(errno)));
+    clock_gettime(CLOCK_MONOTONIC, &s);
+
     pid_t p = fork();
+    if (p == -1)
+        throw TestException("fork: " + std::string(strerror(errno)));
     if (!p)
     {
+        if (redir)
+        {
+            dup2(fds[1], 1);
+            close(fds[0]);
+        }
         char **const args = new char *[1];
         *args = NULL;
         execvp("./a.out", args);
         exit(4);
     }
     waitpid(p, &st, 0);
+    if (WIFSIGNALED(st))
+        _sig = WTERMSIG(st);
+    else
+    {
+        clock_gettime(CLOCK_MONOTONIC, &e);
+        _execTime = (double)(e.tv_sec - s.tv_sec) + (double)(e.tv_nsec - s.tv_nsec) / 1e+9;
+        readOutput();
+    }
+}
+
+void UnitTest::readOutput()
+{
+    int ret;
+    char buf[BUFFER_SIZE];
+
+    bzero(buf, BUFFER_SIZE);
+    close(fds[1]);
+    while ((ret = read(fds[0], buf, BUFFER_SIZE)) > 0)
+        _output.append(buf);
+    close(fds[0]);
+    if (ret == -1)
+        throw TestException("read: " + std::string(strerror(errno)));
+}
+
+bool UnitTest::compile() const
+{
+    return (_compile);
+}
+
+double UnitTest::getExecTime() const
+{
+    return (_execTime);
+}
+
+const std::string &UnitTest::getFname() const
+{
+    return (_fname);
+}
+
+const std::string &UnitTest::getOutput() const
+{
+    return (_output);
+}
+
+double UnitTest::getSig() const
+{
+    return (_sig);
 }
 
 bool UnitTest::operator==(const UnitTest &rhs) const

@@ -4,7 +4,7 @@ int main()
 {
     int psize;
     NS::map<char, int> mymap;
-    std::pair<const char, int> *p;
+    NS::pair<const char, int> *p;
 
     // allocate an array of 5 elements using mymap's allocator:
     p = mymap.get_allocator().allocate(5);

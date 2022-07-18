@@ -123,6 +123,6 @@ int main()
   ft::map<char, int> ve;
   ft::map<char, int>::const_iterator itx (ve.begin());
   ft::map<char, int>::const_iterator te(itx);
-  std::lexicographical_compare
+  std::map<int>
   return 0;
 }

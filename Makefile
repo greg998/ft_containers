@@ -6,7 +6,7 @@
 #    By: ggiquiau <ggiquiau@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/04 13:08:22 by ggiquiau          #+#    #+#              #
-#    Updated: 2022/07/15 15:54:43 by ggiquiau         ###   ########.fr        #
+#    Updated: 2022/07/18 16:17:20 by ggiquiau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ SRCS			= $(addprefix tests/, \
 								UnitTest.cpp \
 )
 					
-OBJS            = ${SRCS:tests%.cpp=${OBJS_DIR}/$(NS)%.o}
+OBJS            = ${SRCS:tests%.cpp=${OBJS_DIR}/$(DIR)%.o}
 
 OBJS_DIR		= tests/objs
 
@@ -30,14 +30,15 @@ CXXFLAGS		= -Wall -Wextra -std=c++98 -Iincludes -Itests -DNS=\"$(NS)\"
 
 RM 				= rm -f
 
-${OBJS_DIR}/$(NS)/%.o:	tests/%.cpp ${HEADERS}
+${OBJS_DIR}/$(DIR)/%.o:	tests/%.cpp ${HEADERS}
 					@mkdir -p $(OBJS_DIR)
-					@mkdir -p $(OBJS_DIR)/$(NS)
+					@mkdir -p $(OBJS_DIR)/$(DIR)
 					${CXX} -c ${CXXFLAGS} -o $@ $<
 
 all:
-			make ft NS=ft
-			make std NS=std
+			make ft NS=ft DIR=ft
+			make std NS=std DIR=std
+			make cmp NS=ft DIR=cmp
 
 ft:		$(OBJS)
 		${CXX} ${OBJS} ${CXXFLAGS} ${LDFLAGS} -o ft
@@ -45,18 +46,21 @@ ft:		$(OBJS)
 std:	$(OBJS)
 		${CXX} ${OBJS} ${CXXFLAGS} ${LDFLAGS} -o std
 			
-	
+cmp:	$(OBJS)
+		${CXX} ${OBJS} ${CXXFLAGS} ${LDFLAGS} -DCMP -o cmp
+		
 clean:
-				make clean2 NS=ft
-				make clean2 NS=std
+				make clean2 DIR=ft
+				make clean2 DIR=std
+				make clean2 DIR=cmp
 				@rm -fd ${OBJS_DIR} || true
 				
 clean2:
 				${RM} ${OBJS}
-				@rm -fd ${OBJS_DIR}/$(NS) || true
+				@rm -fd ${OBJS_DIR}/$(DIR) || true
 
 fclean:			clean
-				${RM} ft std
+				${RM} ft std cmp
 				
 re:
 				${MAKE} fclean

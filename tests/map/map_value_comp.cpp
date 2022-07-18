@@ -10,7 +10,7 @@ int main()
 
     std::cout << "mymap contains:\n";
 
-    std::pair<char, int> highest = *mymap.rbegin(); // last element
+    NS::pair<char, int> highest = *mymap.rbegin(); // last element
 
     NS::map<char, int>::iterator it = mymap.begin();
     do

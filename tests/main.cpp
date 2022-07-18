@@ -76,12 +76,29 @@ int main(int argc, char **argv)
     tester.addTest("set", "set_get_allocator.cpp", true);
     tester.addTest("set", "set_relation_op.cpp", true);
 
+    try
+    {
+        if (argc == 2)
+#ifndef CMP
+            tester.runCategory(argv[1]);
+#endif
+        else if (argc == 3)
+#ifndef CMP
+            tester.runTest(argv[1], argv[2]);
+#else
+            tester.compareTo(argv[1], argv[2]);
+#endif
+        else if (argc == 1)
+#ifndef CMP
+            tester.runAll();
+#endif
+        else
+            std::cerr << "Bad args" << std::endl;
+    }
+    catch(const std::exception &e)
+    {
+        std::cerr << e.what() << std::endl;
+    }
     
-    if (argc == 2)
-        tester.runCategory(argv[1]);
-    else if (argc == 3)
-        tester.runTest(argv[1], argv[2]);
-    else
-        tester.runAll();
     return (0);
 }

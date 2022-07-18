@@ -2,8 +2,9 @@
 #define TESTER_HPP
 #include <iostream>
 #include "UnitTest.hpp"
-#include <set>
+#include <vector>
 #include <map>
+#include <algorithm>
 
 #ifndef NS
 #define NS "ft"
@@ -12,17 +13,33 @@
 class Tester
 {
 public:
-    typedef std::set<UnitTest> set_type;
-    typedef std::map<const std::string, set_type> map_type;
+    typedef std::vector<UnitTest> test_vect;
+    typedef std::map<const std::string, test_vect> category_map;
 
 private:
-    map_type _tests;
+    category_map _tests;
+    double      _testTime;
+    double      _refTime;
 
 public:
+    Tester();
+
     void addTest(const std::string &category, const std::string &fname, bool shouldCompile);
 
-    void runTest(const std::string &category, const std::string &fname) const;
-    void runCategory(const std::string &category) const;
-    void runAll(void) const;
+    test_vect::iterator runTest(const std::string &category, const std::string &fname, const std::string &ns = NS);
+    void runCategory(const std::string &category);
+    void runAll(void);
+    void compareTo(const std::string &category, const std::string &fname, const std::string &ns);
+    void compareAllTo(const std::string &ns);
+    void compareCategoryTo(const std::string &category, const std::string &ns);
+    void printLineResult(test_vect::iterator toTest, test_vect::iterator ref);
+    class TestException : public std::runtime_error
+    {
+    public:
+        TestException(const std::string &error)
+            : std::runtime_error(error.c_str())
+        {
+        }
+    };
 };
 #endif
