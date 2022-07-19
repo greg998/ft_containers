@@ -11,8 +11,8 @@ int main()
     mymap['d'] = 40;
     mymap['e'] = 50;
     mymap['f'] = 60;
-    //displayMap(mymap);
-    mymap.tree_draw();
+    displayMap(mymap);
+    //mymap.tree_draw();
 
     it = mymap.find('b');
     mymap.erase(it); // erasing by iterator

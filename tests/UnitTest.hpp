@@ -7,6 +7,10 @@
 #include <string.h>
 #include <stdlib.h>
 #include <fstream>
+#include <sys/times.h>
+#include <sys/resource.h>
+#include <stdio.h>
+#include <time.h>
 #define BUFFER_SIZE 2048
 
 class UnitTest

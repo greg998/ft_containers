@@ -1,8 +1,4 @@
 #include "UnitTest.hpp"
-#include <sys/times.h>
-#include <sys/resource.h>
-#include <stdio.h>
-#include <time.h>
 
 UnitTest::UnitTest(const std::string &category, const std::string &fname, bool shouldCompile)
     : _fname(fname), _path("tests/" + category + "/" + fname), _shouldCompile(shouldCompile), _sig(0)
