@@ -63,7 +63,7 @@ void Tester::compareTo(test_vect::iterator toTest, const std::string &category, 
     printLineResult(category, toTest, referee);
 }
 
-const   char *Tester::sigToStr(int sig)
+const char *Tester::sigToStr(int sig)
 {
     if (sig == SIGBUS)
         return ("[SIGBUS]");
@@ -72,7 +72,7 @@ const   char *Tester::sigToStr(int sig)
     return ("[SIG]");
 }
 
-void Tester::printLineResult(const std::string &category,test_vect::iterator toTest, const UnitTest &ref)
+void Tester::printLineResult(const std::string &category, test_vect::iterator toTest, const UnitTest &ref)
 {
     std::cout << toTest->getFname() << ": ";
     if (toTest->compile())
@@ -113,7 +113,7 @@ void Tester::compareCategoryTo(const std::string &category, const std::string &n
         compareTo(it2, category, ns);
     }
     std::cout << _passed[category] << " / " << t.size() << " passed" << std::endl;
-    std::cout << NS << " time: " << _testTime  << "s " << ns << " time: " << _refTime << "s" << std::endl;
+    std::cout << NS << " time: " << _testTime << "s " << ns << " time: " << _refTime << "s" << std::endl;
     double diff = _refTime - _testTime;
 
     if (diff > 0)
@@ -127,7 +127,6 @@ void Tester::compareCategoryTo(const std::string &category, const std::string &n
         std::cout << NS << " is " << percent << " times slower than " << ns << std::endl;
     }
 }
-
 
 void Tester::compareAllTo(const std::string &ns)
 {

@@ -13,6 +13,7 @@ int main()
         std::cout << mymap.begin()->first << " => " << mymap.begin()->second << '\n';
         mymap.erase(mymap.begin());
     }
+    displayMap(mymap);
 
     return 0;
 }

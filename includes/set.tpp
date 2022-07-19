@@ -91,38 +91,38 @@ namespace ft
             _base_tree = x._base_tree;
             return (*this);
         }
-        iterator begin() const
+        iterator begin()
         {
             return (_base_tree.begin());
         }
-        // const_iterator begin() const
-        // {
-        //     return (_base_tree.begin());
-        // }
-        iterator end() const
+        const_iterator begin() const
+        {
+            return (_base_tree.begin());
+        }
+        iterator end()
         {
             return (_base_tree.end());
         }
-        // const_iterator end() const
-        // {
-        //     return (_base_tree.end());
-        // }
-        reverse_iterator rbegin() const
+        const_iterator end() const
+        {
+            return (_base_tree.end());
+        }
+        reverse_iterator rbegin()
         {
             return (reverse_iterator(end()));
         }
-        // const_reverse_iterator rbegin() const
-        // {
-        //     return (const_reverse_iterator(end()));
-        // }
-        reverse_iterator rend() const
+        const_reverse_iterator rbegin() const
+        {
+            return (const_reverse_iterator(end()));
+        }
+        reverse_iterator rend()
         {
             return (reverse_iterator(begin()));
         }
-        // const_reverse_iterator rend() const
-        // {
-        //     return (const_reverse_iterator(begin()));
-        // }
+        const_reverse_iterator rend() const
+        {
+            return (const_reverse_iterator(begin()));
+        }
         bool empty() const
         {
             return (_base_tree.empty());
@@ -254,6 +254,11 @@ namespace ft
             return (!(lhs._base_tree < rhs._base_tree));
         }
     };
+    template <class T, class Compare, class Alloc>
+    void swap (set<T,Compare,Alloc>& x, set<T,Compare,Alloc>& y)
+    {
+        x.swap(y);
+    }
 }
 
 #endif

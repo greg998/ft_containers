@@ -8,37 +8,35 @@
 
 namespace ft
 {
-	template <typename T>
-	struct rebind
-	{
-		typedef std::allocator<T> other;
-	};
+	// template <typename T>
+	// struct rebind
+	// {
+	// 	typedef std::allocator<T> other;
+	// };
 	template <class T, typename Alloc>
 	class vector_base
 	{
 	public:
 		typedef Alloc allocator_type;
-		typedef typename __gnu_cxx::__alloc_traits<Alloc>::template rebind<T>::other _Tp_alloc_type;
-		typedef typename __gnu_cxx::__alloc_traits<_Tp_alloc_type>::pointer
-			pointer;
+		typedef typename Alloc::template rebind<T>::other Tp_alloc_type;
+		typedef typename Tp_alloc_type::pointer pointer;
 		vector_base(){};
 		vector_base(const allocator_type &__a)
 			: _impl(__a){};
 
 	protected:
-		class vector_impl : public _Tp_alloc_type
+		class vector_impl : public Tp_alloc_type
 		{
 		public:
 			pointer _data;
 			pointer _end_data;
 			pointer _end_of_storage;
-			vector_impl() _GLIBCXX_NOEXCEPT_IF(
-				std::is_nothrow_default_constructible<_Tp_alloc_type>::value)
-				: _Tp_alloc_type(), _data(), _end_data(), _end_of_storage()
+			vector_impl()
+				: Tp_alloc_type(), _data(), _end_data(), _end_of_storage()
 			{
 			}
-			vector_impl(_Tp_alloc_type const &__a) _GLIBCXX_NOEXCEPT
-				: _Tp_alloc_type(__a),
+			vector_impl(Tp_alloc_type const &__a)
+				: Tp_alloc_type(__a),
 				  _data(),
 				  _end_data(),
 				  _end_of_storage()
@@ -57,8 +55,8 @@ namespace ft
 		typedef size_t size_type;
 		typedef ptrdiff_t difference_type;
 		typedef Alloc allocator_type;
-		typedef typename vector_base<T, Alloc>::_Tp_alloc_type _Tp_alloc_type;
-		typedef __gnu_cxx::__alloc_traits<_Tp_alloc_type> _Alloc_traits;
+		typedef typename vector_base<T, Alloc>::Tp_alloc_type Tp_alloc_type;
+		typedef __gnu_cxx::__alloc_traits<Tp_alloc_type> _Alloc_traits;
 		typedef typename _Alloc_traits::reference reference;
 		typedef typename _Alloc_traits::const_reference const_reference;
 		typedef typename Base::pointer pointer;
@@ -419,13 +417,13 @@ namespace ft
 
 			_impl._end_data = _impl._data;
 		}
-		_Tp_alloc_type &
+		Tp_alloc_type &
 		_M_get_Tp_allocator() _GLIBCXX_NOEXCEPT
 		{
 			return this->_impl;
 		}
 
-		const _Tp_alloc_type &
+		const Tp_alloc_type &
 		_M_get_Tp_allocator() const _GLIBCXX_NOEXCEPT
 		{
 			return this->_impl;

@@ -1,14 +1,16 @@
-#include "tests.hpp"
+#include "tests.tpp"
 
 int main()
 {
     NS::vector<int> myvector(10); // 10 zero-initialized elements
+    displayVect(myvector);
 
     NS::vector<int>::size_type sz = myvector.size();
 
     // assign some values:
     for (unsigned i = 0; i < sz; i++)
         myvector[i] = i;
+    displayVect(myvector);
 
     // reverse vector using operator[]:
     for (unsigned i = 0; i < sz / 2; i++)
@@ -18,11 +20,7 @@ int main()
         myvector[sz - 1 - i] = myvector[i];
         myvector[i] = temp;
     }
-
-    std::cout << "myvector contains:";
-    for (unsigned i = 0; i < sz; i++)
-        std::cout << ' ' << myvector[i];
-    std::cout << '\n';
+    displayVect(myvector);
 
     return 0;
 }

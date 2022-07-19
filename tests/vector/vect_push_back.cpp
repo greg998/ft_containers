@@ -1,4 +1,4 @@
-#include "tests.hpp"
+#include "tests.tpp"
 
 int main()
 {
@@ -7,6 +7,7 @@ int main()
     for (int i = 0; i < 50; ++i)
         myvector.push_back(i);
 
+    displayVect(myvector);
     std::cout << "myvector stores " << int(myvector.size()) << " numbers.\n";
 
     return 0;

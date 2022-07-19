@@ -8,19 +8,13 @@ int main()
 	myset.insert(200);
 	myset.insert(300);
 
-	std::cout << "myset contains:";
-	for (NS::set<int>::iterator it = myset.begin(); it != myset.end(); ++it)
-		std::cout << ' ' << *it;
-	std::cout << '\n';
+	displaySet(myset);
 
 	myset.clear();
 	myset.insert(1101);
 	myset.insert(2202);
 
-	std::cout << "myset contains:";
-	for (NS::set<int>::iterator it = myset.begin(); it != myset.end(); ++it)
-		std::cout << ' ' << *it;
-	std::cout << '\n';
+	displaySet(myset);
 
 	return 0;
 }

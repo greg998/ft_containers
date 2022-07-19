@@ -6,6 +6,7 @@ int main()
 
 	for (int i = 1; i <= 5; i++)
 		myset.insert(i * 10); // myset: 10 20 30 40 50
+	displaySet(myset);
 
 	NS::pair<NS::set<int>::const_iterator, NS::set<int>::const_iterator> ret;
 	ret = myset.equal_range(30);

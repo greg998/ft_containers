@@ -22,6 +22,5 @@ int main()
     NS::swap(foo, bar);
     displayMap(foo);
     displayMap(bar);
-
     return 0;
 }

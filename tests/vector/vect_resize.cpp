@@ -1,4 +1,4 @@
-#include "tests.hpp"
+#include "tests.tpp"
 
 int main()
 {
@@ -7,14 +7,14 @@ int main()
     // set some initial content:
     for (int i = 1; i < 10; i++)
         myvector.push_back(i);
+    displayVect(myvector);
 
     myvector.resize(5);
+    displayVect(myvector);
     myvector.resize(8, 100);
+    displayVect(myvector);
     myvector.resize(12);
-
-    std::cout << "myvector contains:";
-    for (size_t i = 0; i < myvector.size(); i++)
-        std::cout << ' ' << myvector[i];
-    std::cout << '\n';
+    displayVect(myvector);
+    
     return 0;
 }

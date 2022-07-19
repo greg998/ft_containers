@@ -1,19 +1,17 @@
-#include "tests.hpp"
+#include "tests.tpp"
 
-int main ()
+int main()
 {
-  NS::vector<int> myvector (5);  // 5 default-constructed ints
+    NS::vector<int> myvector(5); // 5 default-constructed ints
+    displayVect(myvector);
 
-  int i=0;
+    int i = 0;
 
-  NS::vector<int>::reverse_iterator rit = myvector.rbegin();
-  for (; rit!= myvector.rend(); ++rit)
-    *rit = ++i;
+    NS::vector<int>::reverse_iterator rit = myvector.rbegin();
+    for (; rit != myvector.rend(); ++rit)
+        *rit = ++i;
 
-  std::cout << "myvector contains:";
-  for (NS::vector<int>::iterator it = myvector.begin(); it != myvector.end(); ++it)
-    std::cout << ' ' << *it;
-  std::cout << '\n';
+    displayVect(myvector);
 
-  return 0;
+    return 0;
 }

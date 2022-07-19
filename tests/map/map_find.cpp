@@ -14,10 +14,10 @@ int main()
     if (it != mymap.end())
         mymap.erase(it);
 
-    // print content:
-    std::cout << "elements in mymap:" << '\n';
-    std::cout << "a => " << mymap.find('a')->second << '\n';
-    std::cout << "c => " << mymap.find('c')->second << '\n';
-    std::cout << "d => " << mymap.find('d')->second << '\n';
+    displayMap(mymap);
+
+    it = mymap.find('e');
+    if (it == mymap.end())
+        std::cout << "e not found\n";
     return 0;
 }

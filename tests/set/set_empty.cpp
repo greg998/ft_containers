@@ -15,6 +15,7 @@ int main()
 		myset.erase(myset.begin());
 	}
 	std::cout << '\n';
+	displaySet(myset);
 
 	return 0;
 }

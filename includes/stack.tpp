@@ -22,6 +22,22 @@ namespace ft
         {
         }
 
+        stack(const stack &other)
+            : c(other.c)
+        {
+        }
+
+        stack &operator=(const stack &rhs)
+        {
+            if (this != &rhs)
+            {
+                c = rhs.c;
+            }
+            return (*this);
+        }
+
+        ~stack() {}
+
         bool empty() const
         {
             return (c.empty());

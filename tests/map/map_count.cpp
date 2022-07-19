@@ -9,6 +9,8 @@ int main()
     mymap['c'] = 202;
     mymap['f'] = 303;
 
+    displayMap(mymap);
+
     for (c = 'a'; c < 'h'; c++)
     {
         std::cout << c;

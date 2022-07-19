@@ -9,9 +9,7 @@
 #include <iostream>
 
 namespace ft
-{
-
-	
+{	
 	template <class Key,									   // map::key_type
 			  class T,										   // map::mapped_type
 			  class Compare = std::less<Key>,				   // map::key_compare
@@ -266,7 +264,10 @@ namespace ft
 			return (!(lhs._base_tree < rhs._base_tree));
 		}
 
-		
+		void    tree_draw() const
+		{
+			_base_tree.tree_draw();
+		}
 	};
 	template <class Key, class T, class Compare, class Alloc>
 	void swap (map<Key,T,Compare,Alloc>& x, map<Key,T,Compare,Alloc>& y)

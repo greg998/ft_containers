@@ -8,9 +8,8 @@ int main()
     mymap['a'] = 200;
     mymap['c'] = 300;
 
-    // show content:
-    for (NS::map<char, int>::iterator it = mymap.begin(); it != mymap.end(); ++it)
-        std::cout << it->first << " => " << it->second << '\n';
+    displayMap(mymap);
+    //mymap.tree_draw();
 
     return 0;
 }

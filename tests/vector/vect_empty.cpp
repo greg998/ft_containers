@@ -1,4 +1,4 @@
-#include "tests.hpp"
+#include "tests.tpp"
 
 int main()
 {
@@ -7,12 +7,14 @@ int main()
 
     for (int i = 1; i <= 10; i++)
         myvector.push_back(i);
+    displayVect(myvector);
 
     while (!myvector.empty())
     {
         sum += myvector.back();
         myvector.pop_back();
     }
+    displayVect(myvector);
 
     std::cout << "total: " << sum << '\n';
 

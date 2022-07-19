@@ -25,7 +25,6 @@ int main(int argc, char **argv)
     tester.addTest("vector", "vect_erase.cpp", true);
     tester.addTest("vector", "vect_swap.cpp", true);
     tester.addTest("vector", "vect_clear.cpp", true);
-    tester.addTest("vector", "vect_get_allocator.cpp", true);
     tester.addTest("vector", "vect_relation_op.cpp", true);
 
     tester.addTest("stack", "stack_constructor.cpp", true);
@@ -53,7 +52,6 @@ int main(int argc, char **argv)
     tester.addTest("map", "map_count.cpp", true);
     tester.addTest("map", "map_lower_upper_bound.cpp", true);
     tester.addTest("map", "map_equal_range.cpp", true);
-    tester.addTest("map", "map_get_allocator.cpp", true);
     tester.addTest("map", "map_relation_op.cpp", true);
 
     tester.addTest("set", "set_constructor.cpp", true);
@@ -73,7 +71,6 @@ int main(int argc, char **argv)
     tester.addTest("set", "set_count.cpp", true);
     tester.addTest("set", "set_lower_upper_bound.cpp", true);
     tester.addTest("set", "set_equal_range.cpp", true);
-    tester.addTest("set", "set_get_allocator.cpp", true);
     tester.addTest("set", "set_relation_op.cpp", true);
 
     try
@@ -99,10 +96,10 @@ int main(int argc, char **argv)
         else
             std::cerr << "Bad args" << std::endl;
     }
-    catch(const std::exception &e)
+    catch (const std::exception &e)
     {
         std::cerr << e.what() << std::endl;
     }
-    
+
     return (0);
 }

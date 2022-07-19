@@ -1,14 +1,12 @@
-#include "tests.hpp"
+#include "tests.tpp"
 
-int main ()
+int main()
 {
-  NS::vector<int> myvector;
-  for (int i=1; i<=5; i++) myvector.push_back(i);
+    NS::vector<int> myvector;
+    for (int i = 1; i <= 5; i++)
+        myvector.push_back(i);
 
-  std::cout << "myvector contains:";
-  for (NS::vector<int>::iterator it = myvector.begin() ; it != myvector.end(); ++it)
-    std::cout << ' ' << *it;
-  std::cout << '\n';
+    displayVect(myvector);
 
-  return 0;
+    return 0;
 }

@@ -15,16 +15,16 @@ UnitTest::UnitTest(std::string fname)
 {
     bzero(fds, sizeof(fds));
 }
+
 UnitTest::~UnitTest()
 {
     close_fds();
 }
 
-UnitTest::UnitTest(const UnitTest &src): _fname(src._fname), _path(src._path), _shouldCompile(src._shouldCompile), _compile(src._compile), _execTime(src._execTime), _sig(0)
+UnitTest::UnitTest(const UnitTest &src) : _fname(src._fname), _path(src._path), _shouldCompile(src._shouldCompile), _compile(src._compile), _execTime(src._execTime), _sig(0)
 {
     bzero(fds, sizeof(fds));
 }
-
 
 void UnitTest::close_fds()
 {
@@ -40,22 +40,12 @@ bool UnitTest::compile(const std::string &ns)
     pid_t p = fork();
     if (!p)
     {
-        if (ns == "ft")
-        {
-            char **const compile_arg = new char *[8];
+        char **const compile_arg = new char *[8];
 
-            const char *const compile_arg_const[8] = {"c++", "-std=c++98", "-Wall", "-Wextra", "-Iincludes", "-DNS=ft", _path.c_str(), NULL};
-            memcpy(compile_arg, compile_arg_const, sizeof(compile_arg_const));
-            execvp("c++", compile_arg);
-        }
-        else
-        {
-            char **const compile_arg = new char *[8];
+        const char *const compile_arg_const[] = {"c++", "-std=c++98", "-Wall", "-Wextra", "-Iincludes", ("-DNS=" + ns).c_str(), _path.c_str(), NULL};
+        memcpy(compile_arg, compile_arg_const, sizeof(compile_arg_const));
+        execvp("c++", compile_arg);
 
-            const char *const compile_arg_const[8] = {"c++", "-std=c++98", "-Wall", "-Wextra", "-Iincludes", "-DNS=std", _path.c_str(), NULL};
-            memcpy(compile_arg, compile_arg_const, sizeof(compile_arg_const));
-            execvp("c++", compile_arg);
-        }
         exit(2);
     }
     waitpid(p, &st, 0);
@@ -79,10 +69,13 @@ void UnitTest::exec()
     {
         dup2(fds[1], 1);
         close(fds[0]);
-        char **const args = new char *[1];
-        *args = NULL;
+        char **const args = new char *[3];
+        const char *const arg_const[3] = {"valgrind", "./a.out", NULL};
+        memcpy(args, arg_const, sizeof(arg_const));
         execvp("./a.out", args);
-        exit(4);
+        // execvp("valgrind", args);
+        free(args);
+        exit(1);
     }
     waitpid(p, &st, 0);
     if (WIFSIGNALED(st))
@@ -92,9 +85,9 @@ void UnitTest::exec()
         clock_gettime(CLOCK_MONOTONIC, &e);
         _execTime = (double)(e.tv_sec - s.tv_sec) + (double)(e.tv_nsec - s.tv_nsec) / 1e+9;
         readOutput();
-        #ifndef CMP
-            std::cout << _output;
-        #endif
+#ifndef CMP
+        std::cout << _output;
+#endif
     }
 }
 

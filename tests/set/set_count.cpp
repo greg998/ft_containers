@@ -7,6 +7,7 @@ int main()
 	// set some initial values:
 	for (int i = 1; i < 5; ++i)
 		myset.insert(i * 3); // set: 3 6 9 12
+	displaySet(myset);
 
 	for (int i = 0; i < 10; ++i)
 	{

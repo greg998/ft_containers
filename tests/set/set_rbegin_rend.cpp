@@ -4,6 +4,7 @@ int main()
 {
 	int myints[] = {21, 64, 17, 78, 49};
 	NS::set<int> myset(myints, myints + 5);
+	displaySet(myset);
 
 	NS::set<int>::reverse_iterator rit;
 

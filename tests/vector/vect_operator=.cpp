@@ -1,14 +1,16 @@
-#include "tests.hpp"
+#include "tests.tpp"
 
-int main ()
+int main()
 {
-  NS::vector<int> foo (3,0);
-  NS::vector<int> bar (5,0);
+    NS::vector<int> foo(3, 0);
+    NS::vector<int> bar(5, 0);
+    displayVect(foo);
+    displayVect(bar);
 
-  bar = foo;
-  foo = NS::vector<int>();
+    bar = foo;
+    foo = NS::vector<int>();
 
-  std::cout << "Size of foo: " << int(foo.size()) << '\n';
-  std::cout << "Size of bar: " << int(bar.size()) << '\n';
-  return 0;
+    displayVect(foo);
+    displayVect(bar);
+    return 0;
 }

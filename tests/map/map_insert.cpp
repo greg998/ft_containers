@@ -26,13 +26,8 @@ int main()
     NS::map<char, int> anothermap;
     anothermap.insert(mymap.begin(), mymap.find('c'));
 
-    // showing contents:
-    std::cout << "mymap contains:\n";
-    for (it = mymap.begin(); it != mymap.end(); ++it)
-        std::cout << it->first << " => " << it->second << '\n';
+    displayMap(mymap);
+    displayMap(anothermap);
 
-    std::cout << "anothermap contains:\n";
-    for (it = anothermap.begin(); it != anothermap.end(); ++it)
-        std::cout << it->first << " => " << it->second << '\n';
     return 0;
 }

@@ -16,9 +16,7 @@ int main()
 
     mymap.erase(itlow, itup); // erases [itlow,itup)
 
-    // print content:
-    for (NS::map<char, int>::iterator it = mymap.begin(); it != mymap.end(); ++it)
-        std::cout << it->first << " => " << it->second << '\n';
+    displayMap(mymap);
 
     return 0;
 }

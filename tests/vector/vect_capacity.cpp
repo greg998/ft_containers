@@ -1,4 +1,4 @@
-#include "tests.hpp"
+#include "tests.tpp"
 
 int main()
 {
@@ -8,8 +8,6 @@ int main()
     for (int i = 0; i < 100; i++)
         myvector.push_back(i);
 
-    std::cout << "size: " << (int)myvector.size() << '\n';
-    std::cout << "capacity: " << (int)myvector.capacity() << '\n';
-    std::cout << "max_size: " << (int)myvector.max_size() << '\n';
+    displayVect(myvector);
     return 0;
 }

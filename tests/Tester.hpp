@@ -19,7 +19,7 @@ public:
 
 private:
     category_map _tests;
-    passed_map  _passed;
+    passed_map _passed;
 
     double _testTime;
     double _refTime;
@@ -36,7 +36,7 @@ public:
     void compareTo(test_vect::iterator toTest, const std::string &category, const std::string &ns);
     void compareAllTo(const std::string &ns);
     void compareCategoryTo(const std::string &category, const std::string &ns);
-    void printLineResult(const std::string &category,test_vect::iterator toTest, const UnitTest &ref);
+    void printLineResult(const std::string &category, test_vect::iterator toTest, const UnitTest &ref);
 
     static const char *sigToStr(int sig);
 

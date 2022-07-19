@@ -8,15 +8,14 @@ int main()
 	// set some initial values:
 	for (int i = 1; i <= 5; i++)
 		myset.insert(i * 10); // set: 10 20 30 40 50
+	displaySet(myset);
 
 	it = myset.find(20);
 	myset.erase(it);
+	displaySet(myset);
 	myset.erase(myset.find(40));
 
-	std::cout << "myset contains:";
-	for (it = myset.begin(); it != myset.end(); ++it)
-		std::cout << ' ' << *it;
-	std::cout << '\n';
+	displaySet(myset);
 
 	return 0;
 }

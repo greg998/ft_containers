@@ -6,12 +6,223 @@
 #include "type_traits.tpp"
 #include "algorithm.tpp"
 #include <iostream>
+#include "dot_gen.tpp"
+#include <fstream>
+#include <cstdlib>
 
 namespace ft
 {
     template <class Key, class Val, typename GetKey, typename Compare, class Alloc>
     class Rb_tree
     {
+    private:
+        enum Rb_tree_color
+        {
+            RED = true,
+            BLACK = false
+        };
+        struct Rb_node
+        {
+            Rb_tree_color color;
+            Rb_node *parent;
+            Rb_node *left;
+            Rb_node *right;
+
+        public:
+            Rb_node() : color(RED), parent(), left(), right() {}
+            ~Rb_node() {}
+            Rb_node &operator=(const Rb_node &rhs)
+            {
+                color = rhs.color;
+                parent = rhs.parent;
+                left = rhs.left;
+                right = rhs.right;
+                return (*this);
+            }
+        };
+        template <typename V>
+        struct Node : public Rb_node
+        {
+            V data;
+            Node(V val) : Rb_node(), data(val)
+            {
+            }
+        };
+
+        template <typename T>
+        class Rb_tree_iterator
+        {
+        private:
+            template <typename X>
+            struct Rb_tree_iterator_traits
+            {
+            };
+            template <typename X>
+            struct Rb_tree_iterator_traits<X *>
+            {
+                typedef Rb_node *node_type;
+                typedef Node<X> *link_type;
+            };
+            template <typename X>
+            struct Rb_tree_iterator_traits<const X *>
+            {
+                typedef const Rb_node *node_type;
+                typedef const Node<X> *link_type;
+            };
+
+            typedef iterator_traits<T> _traits_type;
+            typedef Rb_tree_iterator_traits<T> _traits_type_tree;
+            typedef typename _traits_type_tree::node_type node_type;
+            node_type _current;
+
+        public:
+            typedef std::bidirectional_iterator_tag iterator_category;
+            typedef typename _traits_type::value_type value_type;
+            typedef typename _traits_type::difference_type difference_type;
+            typedef typename _traits_type::reference reference;
+            typedef typename _traits_type::pointer pointer;
+            typedef typename _traits_type_tree::link_type link_type;
+
+            Rb_tree_iterator()
+                : _current()
+            {
+            }
+            explicit Rb_tree_iterator(node_type src)
+                : _current(src)
+            {
+            }
+
+            Rb_tree_iterator(const Rb_tree_iterator<value_type *> &src)
+                : _current(src.base()) {}
+
+            Rb_tree_iterator &operator=(const Rb_tree_iterator &rhs)
+            {
+                _current = rhs._current;
+                return (*this);
+            }
+
+            node_type base(void) const
+            {
+                return (_current);
+            }
+
+            reference
+            operator*() const _GLIBCXX_NOEXCEPT
+            {
+                return (static_cast<link_type>(_current)->data);
+            }
+
+            pointer
+            operator->() const _GLIBCXX_NOEXCEPT
+            {
+                return (&static_cast<link_type>(_current)->data);
+            }
+
+            void rb_increment()
+            {
+                if (_current->right)
+                {
+                    _current = _current->right;
+                    while (_current->left)
+                        _current = _current->left;
+                }
+                else
+                {
+                    Rb_node *p(_current->parent);
+
+                    while (p->right == _current)
+                    {
+                        _current = p;
+                        p = p->parent;
+                    }
+                    if (_current->right != p)
+                        _current = p;
+                }
+            }
+            Rb_tree_iterator &operator++()
+            {
+                // if (_current->color == BLACK)
+                //     std::cout << " BLACK " << std::endl;
+                // else
+                //     std::cout << " RED " << std::endl;
+                rb_increment();
+                return (*this);
+            }
+            Rb_tree_iterator operator++(int)
+            {
+                Rb_tree_iterator tmp(*this);
+                // if (_current->color == BLACK)
+                //     std::cout << " BLACK " << std::endl;
+                // else
+                //     std::cout << " RED " << std::endl;
+                rb_increment();
+                return (tmp);
+            }
+            void rb_decrement()
+            {
+                if (_current->color == RED && _current->parent->parent == _current && _current->right)
+                {
+                    _current = _current->right;
+                }
+                else if (_current->left)
+                {
+                    _current = _current->left;
+                    while (_current->right)
+                        _current = _current->right;
+                }
+                else
+                {
+                    Rb_node *p(_current->parent);
+
+                    while (p->left == _current)
+                    {
+                        _current = p;
+                        p = p->parent;
+                    }
+                    _current = p;
+                }
+            }
+            Rb_tree_iterator &operator--()
+            {
+                rb_decrement();
+                return (*this);
+            }
+            Rb_tree_iterator operator--(int)
+            {
+                Rb_tree_iterator tmp(*this);
+                rb_decrement();
+                return (tmp);
+            }
+
+            // template<typename U>
+            // friend bool operator!=(Rb_tree_iterator<U> rhs)
+            // {
+            //     return (lhs._current != rhs.base());
+            // }
+
+            // friend bool operator!=(Rb_tree_iterator<T> lhs, Rb_tree_iterator<const T> rhs)
+            // {
+            //     return (lhs._current != rhs.base());
+            // }
+            bool operator!=(const Rb_tree_iterator<T> &rhs) const
+            {
+                return (_current != rhs._current);
+            }
+            // bool operator!=(Rb_tree_iterator<const T> lhs, Rb_tree_iterator<T> rhs)
+            // {
+            //     return (lhs.base() != rhs.base());
+            // }
+            // bool operator!=(const Rb_tree_iterator<T> &rhs)
+            // {
+            //     return (_current != rhs._current);
+            // }
+            bool
+            operator==(const Rb_tree_iterator<T> &rhs) const
+            {
+                return (_current == rhs._current);
+            }
+        };
+
     public:
         typedef Key key_type;
         typedef Val value_type;
@@ -28,8 +239,7 @@ namespace ft
         typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
 
     private:
-        typedef typename __gnu_cxx::__alloc_traits<Alloc>::template rebind<Node<Val> >::other Node_allocator;
-        typedef __gnu_cxx::__alloc_traits<Node_allocator> Alloc_traits;
+        typedef typename Alloc::template rebind<Node<Val> >::other Node_allocator;
 
         struct Header
         {
@@ -920,6 +1130,54 @@ namespace ft
         operator>=(const Rb_tree &lhs, const Rb_tree &rhs)
         {
             return (!(lhs < rhs));
+        }
+
+        std::string createDotString() const
+        {
+            std::string finalS = "digraph rbt{\n";
+            finalS += createDotString(root());
+            finalS += "}\n";
+            return finalS;
+        }
+
+        std::string createDotString(const Rb_node *root) const
+        { // function to help visualize tree
+            if (root == NULL)
+            {
+                return "";
+            }
+            std::string currentNodeS = "";
+
+            if (root->left)
+            { // order important to maintain bst property in dot (left node comes first)
+                currentNodeS += value(root).first + std::string("->") + value(root->left).first + std::string(";\n");
+            }
+            if (root->right)
+            {
+                currentNodeS += value(root).first + std::string("->") + value(root->right).first + std::string(";\n");
+            }
+            if (root->color == BLACK)
+            {
+                currentNodeS += value(root).first + std::string("[style = \"filled\" fillcolor = \"black\" fontcolor=\"white\"];\n");
+            }
+            else
+            {
+                currentNodeS += value(root).first + std::string("[style = \"filled\" fillcolor = \"red\" fontcolor=\"white\"];\n");
+            }
+            currentNodeS += createDotString(root->left);
+            currentNodeS += createDotString(root->right);
+            return (currentNodeS);
+        }
+
+        void tree_draw() const
+        {
+            std::string dotString(createDotString());
+            std::ofstream myfile;
+            myfile.open("rbt.dot");
+            myfile << dotString;
+            myfile.close();
+            system("dot -Tpng rbt.dot -o rbt.png");
+            remove("rbt.dot");
         }
     };
 }

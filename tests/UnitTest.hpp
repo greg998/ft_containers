@@ -33,7 +33,7 @@ public:
     void readOutput();
     void close_fds();
     double getExecTime() const;
-    const std::string & getFname() const;
+    const std::string &getFname() const;
     double getSig() const;
     const std::string &getOutput() const;
 

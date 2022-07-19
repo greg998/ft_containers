@@ -1,12 +1,12 @@
 #include "tests.tpp"
 
-bool fncomp(char lhs, char rhs) { return lhs < rhs; }
+bool fncomp(char lhs, char rhs) { return lhs > rhs; }
 
 struct classcomp
 {
     bool operator()(const char &lhs, const char &rhs) const
     {
-        return lhs < rhs;
+        return lhs > rhs;
     }
 };
 
@@ -25,11 +25,19 @@ int main()
     NS::map<char, int> third(second);
     displayMap(third);
 
-    NS::map<char, int, classcomp> fourth; // class as Compare
+    NS::map<char, int, classcomp> fourth;
+    fourth['a'] = 10;
+    fourth['b'] = 30;
+    fourth['c'] = 50;
+    fourth['d'] = 70;
     displayMap(fourth);
 
     bool (*fn_pt)(char, char) = fncomp;
-    NS::map<char, int, bool (*)(char, char)> fifth(fn_pt); // function pointer as Compare
+    NS::map<char, int, bool (*)(char, char)> fifth(fn_pt);
+    fifth['a'] = 10;
+    fifth['b'] = 30;
+    fifth['c'] = 50;
+    fifth['d'] = 70;
     displayMap(fifth);
     return 0;
 }

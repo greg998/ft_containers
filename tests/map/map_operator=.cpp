@@ -8,11 +8,14 @@ int main()
     first['x'] = 8;
     first['y'] = 16;
     first['z'] = 32;
+    displayMap(first);
+    displayMap(second);
+
 
     second = first;               // second now contains 3 ints
     first = NS::map<char, int>(); // and first is now empty
 
-    std::cout << "Size of first: " << first.size() << '\n';
-    std::cout << "Size of second: " << second.size() << '\n';
+    displayMap(first);
+    displayMap(second);
     return 0;
 }

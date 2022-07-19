@@ -1,4 +1,4 @@
-#include "tests.hpp"
+#include "tests.tpp"
 
 int main()
 {
@@ -16,8 +16,8 @@ int main()
     int myints[] = {1776, 7, 4};
     third.assign(myints, myints + 3); // assigning from array.
 
-    std::cout << "Size of first: " << int(first.size()) << '\n';
-    std::cout << "Size of second: " << int(second.size()) << '\n';
-    std::cout << "Size of third: " << int(third.size()) << '\n';
+    displayVect(first);
+    displayVect(second);
+    displayVect(third);
     return 0;
 }

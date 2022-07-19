@@ -1,33 +1,21 @@
-#include "tests.hpp"
+#include "tests.tpp"
 
-int main ()
+int main()
 {
-  NS::vector<int> foo (3,100);   // three ints with a value of 100
-  NS::vector<int> bar (5,200);   // five ints with a value of 200
+    NS::vector<int> foo(3, 100); // three ints with a value of 100
+    NS::vector<int> bar(5, 200); // five ints with a value of 200
+    displayVect(foo);
+    displayVect(bar);
 
-  foo.swap(bar);
+    foo.swap(bar);
 
-  std::cout << "foo contains:";
-  for (unsigned i=0; i<foo.size(); i++)
-    std::cout << ' ' << foo[i];
-  std::cout << '\n';
+    displayVect(foo);
+    displayVect(bar);
 
-  std::cout << "bar contains:";
-  for (unsigned i=0; i<bar.size(); i++)
-    std::cout << ' ' << bar[i];
-  std::cout << '\n';
+    NS::swap(foo, bar);
 
-  NS::swap(foo, bar);
+    displayVect(foo);
+    displayVect(bar);
 
-  std::cout << "foo contains:";
-  for (unsigned i=0; i<foo.size(); i++)
-    std::cout << ' ' << foo[i];
-  std::cout << '\n';
-
-  std::cout << "bar contains:";
-  for (unsigned i=0; i<bar.size(); i++)
-    std::cout << ' ' << bar[i];
-  std::cout << '\n';
-
-  return 0;
+    return 0;
 }

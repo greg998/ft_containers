@@ -9,16 +9,14 @@ int main()
     mymap['z'] = 300;
 
     std::cout << "mymap contains:\n";
-    for (NS::map<char, int>::iterator it = mymap.begin(); it != mymap.end(); ++it)
-        std::cout << it->first << " => " << it->second << '\n';
+    displayMap(mymap);
 
     mymap.clear();
     mymap['a'] = 1101;
     mymap['b'] = 2202;
 
     std::cout << "mymap contains:\n";
-    for (NS::map<char, int>::iterator it = mymap.begin(); it != mymap.end(); ++it)
-        std::cout << it->first << " => " << it->second << '\n';
+    displayMap(mymap);
 
     return 0;
 }

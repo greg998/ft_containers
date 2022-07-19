@@ -16,5 +16,9 @@ int main ()
   std::cout << "size of third: " << third.size() << '\n';
   std::cout << "size of fourth: " << fourth.size() << '\n';
 
+  NS::stack<int,std::vector<int> > fifth = fourth;
+
+  displayStack(fourth);
+  displayStack(fifth);
   return 0;
 }

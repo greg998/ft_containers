@@ -1,4 +1,4 @@
-#include "tests.hpp"
+#include "tests.tpp"
 
 int main()
 {
@@ -7,19 +7,13 @@ int main()
     myvector.push_back(200);
     myvector.push_back(300);
 
-    std::cout << "myvector contains:";
-    for (unsigned i = 0; i < myvector.size(); i++)
-        std::cout << ' ' << myvector[i];
-    std::cout << '\n';
+    displayVect(myvector);
 
     myvector.clear();
     myvector.push_back(1101);
     myvector.push_back(2202);
 
-    std::cout << "myvector contains:";
-    for (unsigned i = 0; i < myvector.size(); i++)
-        std::cout << ' ' << myvector[i];
-    std::cout << '\n';
+    displayVect(myvector);
 
     return 0;
 }

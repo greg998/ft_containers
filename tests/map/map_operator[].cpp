@@ -13,7 +13,7 @@ int main()
     std::cout << "mymap['c'] is " << mymap['c'] << '\n';
     std::cout << "mymap['d'] is " << mymap['d'] << '\n';
 
-    std::cout << "mymap now contains " << mymap.size() << " elements.\n";
+    displayMap(mymap);
 
     return 0;
 }

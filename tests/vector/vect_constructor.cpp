@@ -1,7 +1,7 @@
-#include "tests.hpp"
+#include "tests.tpp"
 
 int main()
-{                                                         // constructors used in the same order as described above:
+{                                                        // constructors used in the same order as described above:
     NS::vector<int> first;                               // empty vector of ints
     NS::vector<int> second(4, 100);                      // four ints with value 100
     NS::vector<int> third(second.begin(), second.end()); // iterating through second
@@ -11,9 +11,11 @@ int main()
     int myints[] = {16, 2, 77, 29};
     NS::vector<int> fifth(myints, myints + sizeof(myints) / sizeof(int));
 
-    std::cout << "The contents of fifth are:";
-    for (NS::vector<int>::iterator it = fifth.begin(); it != fifth.end(); ++it)
-        std::cout << ' ' << *it;
-    std::cout << '\n';
+    displayVect(first);
+    displayVect(second);
+    displayVect(third);
+    displayVect(fourth);
+    displayVect(fifth);
+
     return (0);
 }
