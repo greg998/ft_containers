@@ -1,0 +1,23 @@
+make[1]: Entering directory '/home/greg/42/ft_containers'
+c++ -c -Wall -Wextra -g3 -std=c++98 -Iincludes  -o srcs/objs/main.o srcs/main.cpp
+c++ srcs/objs/main.o -Wall -Wextra -g3 -std=c++98 -Iincludes   -o ex01
+make[1]: Leaving directory '/home/greg/42/ft_containers'
+A 100
+constructor 2
+copy A 100
+copy A 100
+copy A 100
+A destructor 100
+A 200
+copy A 100
+copy A 100
+copy A 100
+A destructor 100
+A destructor 100
+A destructor 100
+A destructor 200
+myvector contains: 200 100 100 100
+A destructor 200
+A destructor 100
+A destructor 100
+A destructor 100
