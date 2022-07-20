@@ -6,7 +6,7 @@
 #    By: ggiquiau <ggiquiau@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/04 13:08:22 by ggiquiau          #+#    #+#              #
-#    Updated: 2022/07/18 18:35:16 by ggiquiau         ###   ########.fr        #
+#    Updated: 2022/07/21 00:37:18 by ggiquiau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ OBJS            = ${SRCS:tests%.cpp=${OBJS_DIR}/$(DIR)%.o}
 OBJS_DIR		= tests/objs
 
 
-HEADERS			= $(addprefix includes/, vector.tpp iterator.tpp iterator_tags.hpp iterator_traits.tpp random_access_iterator.tpp algorithm.tpp type_traits.tpp utility.tpp map.tpp Rb_tree_iterator.tpp) $(addprefix tests/, Tester.hpp UnitTest.hpp)
+HEADERS			= $(addprefix includes/, vector.tpp iterator.tpp  iterator_traits.tpp random_access_iterator.tpp algorithm.tpp type_traits.tpp utility.tpp map.tpp) $(addprefix tests/, Tester.hpp UnitTest.hpp)
 
 
 CXX  			=  c++

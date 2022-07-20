@@ -2,14 +2,16 @@
 #define TESTS_TPP
 
 # ifndef NS
-#  define NS FT
+#  define NS ft
 # endif
 
-#include "set.tpp"
 #include "utility.tpp"
 #include <set>
+#include <iostream>
 
-
+#if NS==ft
+#include "set.tpp"
+#endif
 
 template < class T,
            class Compare,

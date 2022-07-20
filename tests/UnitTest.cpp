@@ -33,6 +33,7 @@ void UnitTest::close_fds()
 
 bool UnitTest::compile(const std::string &ns)
 {
+    std::cout << "here " << ns << std::endl;
     int st = 0;
     pid_t p = fork();
     if (!p)
