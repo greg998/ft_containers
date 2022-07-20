@@ -11,6 +11,7 @@
 #include <sys/resource.h>
 #include <stdio.h>
 #include <time.h>
+#include <fcntl.h>
 #define BUFFER_SIZE 2048
 
 class UnitTest

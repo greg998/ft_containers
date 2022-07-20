@@ -4,6 +4,7 @@ UnitTest::UnitTest(const std::string &category, const std::string &fname, bool s
     : _fname(fname), _path("tests/" + category + "/" + fname), _shouldCompile(shouldCompile), _sig(0)
 {
     bzero(fds, sizeof(fds));
+    
 }
 
 UnitTest::UnitTest(std::string fname)
@@ -36,9 +37,15 @@ bool UnitTest::compile(const std::string &ns)
     pid_t p = fork();
     if (!p)
     {
-        char **const compile_arg = new char *[8];
-
-        const char *const compile_arg_const[] = {"c++", "-std=c++98", "-Wall", "-Wextra", "-Iincludes", ("-DNS=" + ns).c_str(), _path.c_str(), NULL};
+#ifdef CMP
+        int null_fd = open("/dev/null", O_WRONLY);
+        if (null_fd == -1)
+            throw TestException("open: " + std::string(strerror(errno)));
+        dup2(null_fd, 2);
+#endif
+        char **const compile_arg = new char *[9];
+        std::string define(("-DNS=" + ns));
+        const char *const compile_arg_const[] = {"c++", "-std=c++98", "-Wall", "-Wextra", "-g3",  "-Iincludes", define.c_str(), _path.c_str(), NULL};
         memcpy(compile_arg, compile_arg_const, sizeof(compile_arg_const));
         execvp("c++", compile_arg);
 
@@ -69,7 +76,7 @@ void UnitTest::exec()
         const char *const arg_const[3] = {"valgrind", "./a.out", NULL};
         memcpy(args, arg_const, sizeof(arg_const));
         execvp("./a.out", args);
-        // execvp("valgrind", args);
+        //execvp("valgrind", args);
         free(args);
         exit(1);
     }

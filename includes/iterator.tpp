@@ -3,7 +3,6 @@
 #include <iostream>
 #include "iterator_traits.tpp"
 #include "iterator.tpp"
-#include "iterator_tags.hpp"
 
 namespace ft
 {
@@ -39,10 +38,12 @@ namespace ft
 			: current()
 		{
 		}
+
 		explicit reverse_iterator(iterator_type it)
 			: current(it)
 		{
 		}
+
 		reverse_iterator(const reverse_iterator &__x)
 			: current(__x.current) {}
 		template <class Iter>
@@ -50,6 +51,7 @@ namespace ft
 			: current(rev_it.base())
 		{
 		}
+
 		iterator_type base() const
 		{
 			return (current);
@@ -115,12 +117,14 @@ namespace ft
 			return *(*this + rhs);
 		}
 	};
+
 	template <class Iterator>
 	inline bool operator==(const reverse_iterator<Iterator> &lhs,
 						   const reverse_iterator<Iterator> &rhs)
 	{
 		return (lhs.base() == rhs.base());
 	}
+
 	template <typename IteratorL, typename IteratorR>
 	inline bool operator==(const reverse_iterator<IteratorL> &lhs,
 						   const reverse_iterator<IteratorR> &rhs)
@@ -134,6 +138,7 @@ namespace ft
 	{
 		return (!(lhs == rhs));
 	}
+
 	template <typename IteratorL, typename IteratorR>
 	inline bool operator!=(const reverse_iterator<IteratorL> &lhs,
 						   const reverse_iterator<IteratorR> &rhs)
@@ -147,6 +152,7 @@ namespace ft
 	{
 		return (rhs.base() < lhs.base());
 	}
+
 	template <typename IteratorL, typename IteratorR>
 	inline bool operator<(const reverse_iterator<IteratorL> &lhs,
 						  const reverse_iterator<IteratorR> &rhs)
@@ -160,6 +166,7 @@ namespace ft
 	{
 		return (!(rhs < lhs));
 	}
+
 	template <typename IteratorL, typename IteratorR>
 	inline bool operator<=(const reverse_iterator<IteratorL> &lhs,
 						   const reverse_iterator<IteratorR> &rhs)
@@ -173,6 +180,7 @@ namespace ft
 	{
 		return (rhs.base() > lhs.base());
 	}
+
 	template <typename IteratorL, typename IteratorR>
 	inline bool operator>(const reverse_iterator<IteratorL> &lhs,
 						  const reverse_iterator<IteratorR> &rhs)
@@ -186,6 +194,7 @@ namespace ft
 	{
 		return (!(lhs < rhs));
 	}
+	
 	template <typename IteratorL, typename IteratorR>
 	inline bool operator>=(const reverse_iterator<IteratorL> &lhs,
 						   const reverse_iterator<IteratorR> &rhs)
@@ -236,6 +245,7 @@ namespace ft
 			++n;
 		return (n);
 	}
+	
 	template <class InputIterator>
 	typename iterator_traits<InputIterator>::difference_type
 	distance(InputIterator first, InputIterator last)

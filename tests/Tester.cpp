@@ -75,16 +75,19 @@ const char *Tester::sigToStr(int sig)
 void Tester::printLineResult(const std::string &category, test_vect::iterator toTest, const UnitTest &ref)
 {
     std::cout << toTest->getFname() << ": ";
+    std::cout << "compile: ";
     if (toTest->compile())
-        std::cout << ("compile ok");
+        std::cout << ("[OK]");
     else
-        std::cout << ("compile fail");
+        std::cout << ("[FAIL]");
     if (toTest->getSig())
     {
         std::cout << " " << sigToStr(toTest->getSig());
     }
     else
     {
+        std::cout << " diff:";
+        std::cout << ref.getOutput(); //??
         if (toTest->getOutput() == ref.getOutput())
         {
             _passed[category]++;

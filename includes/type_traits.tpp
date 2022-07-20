@@ -57,22 +57,6 @@ namespace ft
     {
     };
 
-#ifdef _GLIBCXX_USE_WCHAR_T
-    template <>
-    struct is_integral<wchar_t>
-        : public true_type
-    {
-    };
-#endif
-
-#ifdef _GLIBCXX_USE_CHAR8_T
-    template <>
-    struct is_integral<char8_t>
-        : public true_type
-    {
-    };
-#endif
-
     template <>
     struct is_integral<short>
         : public true_type

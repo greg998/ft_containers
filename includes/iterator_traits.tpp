@@ -1,7 +1,6 @@
 #ifndef ITERATOR_TRAITS
 #define ITERATOR_TRAITS
 #include <iostream>
-#include "iterator_tags.hpp"
 #include <cstddef>
 
 namespace ft

@@ -45,6 +45,7 @@ namespace ft
 		};
 		vector_impl _impl;
 	};
+
 	template <class T, class Alloc = std::allocator<T> >
 	class vector : public vector_base<T, Alloc>
 	{
@@ -70,11 +71,11 @@ namespace ft
 			: Base(alloc)
 		{
 		}
+		
 		explicit vector(size_type n, const value_type &val = value_type(),
 						const allocator_type &alloc = allocator_type())
 			: Base(alloc)
 		{
-			//std::cout << "constructor 2\n";
 			_impl._data = _M_get_Tp_allocator().allocate(n);
 			_impl._end_data = _impl._data;
 			while (n--)
@@ -89,10 +90,6 @@ namespace ft
 		{
 			difference_type n = ft::distance(first, last);
 			_impl._data = _M_get_Tp_allocator().allocate(n);
-			// 	_impl._end_data =
-			// std::__uninitialized_copy_a(first, last,
-			// 			this->_impl._data,
-			// 			_M_get_Tp_allocator());
 			_impl._end_data = _impl._data;
 			while (n--)
 				// different than *impl.end_data++ = *first++
@@ -104,7 +101,6 @@ namespace ft
 		vector(const vector &x)
 			: Base(x._M_get_Tp_allocator())
 		{
-			//std::cout << "copy constructor\n";
 			size_type n = x.size();
 			_impl._data = _M_get_Tp_allocator().allocate(n);
 			_impl._end_data = _impl._data;
@@ -112,13 +108,14 @@ namespace ft
 				::new (_impl._end_data++) value_type(*it);
 			_impl._end_of_storage = _impl._end_data;
 		}
+
 		~vector()
 		{
-			// std::cout << "destroy" << std::endl;
 			for (size_type i = 0; i < size(); ++i)
 				get_allocator().destroy(_impl._data + i);
 			get_allocator().deallocate(_impl._data, capacity());
 		}
+
 		vector &operator=(const vector &x)
 		{
 			if (this != &x)
@@ -127,46 +124,57 @@ namespace ft
 			}
 			return (*this);
 		}
+
 		iterator begin()
 		{
 			return (iterator(_impl._data));
 		}
+
 		const_iterator begin() const
 		{
 			return (const_iterator(_impl._data));
 		}
+
 		iterator end()
 		{
 			return (iterator(_impl._end_data));
 		}
+
 		const_iterator end() const
 		{
 			return (const_iterator(_impl._end_data));
 		}
+
 		reverse_iterator rbegin()
 		{
 			return (reverse_iterator(end()));
 		}
+
 		const_reverse_iterator rbegin() const
 		{
 			return (const_reverse_iterator(end()));
 		}
+
 		reverse_iterator rend()
 		{
 			return (reverse_iterator(begin()));
 		}
+
 		const_reverse_iterator rend() const
 		{
 			return (const_reverse_iterator(begin()));
 		}
+
 		size_type size() const
 		{
 			return (size_type(this->_impl._end_data - this->_impl._data));
 		}
+
 		size_type max_size() const
 		{
 			return (get_allocator().max_size());
 		}
+
 		void resize(size_type n, value_type val = value_type())
 		{
 			size_type size = this->size();
@@ -185,10 +193,12 @@ namespace ft
 					*_impl._end_data++ = val;
 			}
 		}
+
 		size_type capacity() const
 		{
 			return (size_type(_impl._end_of_storage - _impl._data));
 		}
+
 		bool empty() const
 		{
 			return (size() == 0);
@@ -228,39 +238,47 @@ namespace ft
 		{
 			return (_impl._data[n]);
 		}
+
 		reference at(size_type n)
 		{
 			if (n >= size())
 				throw std::out_of_range("vector::at");
 			return (_impl._data[n]);
 		}
+
 		const_reference at(size_type n) const
 		{
 			if (n >= size())
 				throw std::out_of_range("vector::at");
 			return (_impl._data[n]);
 		}
+
 		reference front()
 		{
 			return (*begin());
 		}
+
 		const_reference front() const
 		{
 			return (*begin());
 		}
+
 		reference back()
 		{
 			return (*(end() - 1));
 		}
+
 		const_reference back() const
 		{
 			return (*(end() - 1));
 		}
+		
 		void destroy_data(void)
 		{
 			for (size_type i = 0; i < size(); ++i)
 				get_allocator().destroy(_impl._data + i);
 		}
+
 		void reallocate_data(size_type n)
 		{
 			if (n > capacity())
@@ -272,6 +290,7 @@ namespace ft
 			}
 			_impl._end_data = _impl._data + n;
 		}
+
 		void assign(size_type n, const value_type &val)
 		{
 			destroy_data();
@@ -279,6 +298,7 @@ namespace ft
 			while (n--)
 				get_allocator().construct(_impl._data + n, val);
 		}
+
 		template <class InputIterator>
 		void assign(InputIterator first,
 					typename enable_if<!is_integral<InputIterator>::value, InputIterator>::type last)
@@ -302,11 +322,13 @@ namespace ft
 				reserve(std::max(capacity() * 2, size_type(1)));
 			*_impl._end_data++ = val;
 		}
+
 		void pop_back()
 		{
 			--_impl._end_data;
 			get_allocator().destroy(_impl._end_data);
 		}
+
 		iterator insert(iterator position, const value_type &val)
 		{
 			difference_type offset = difference_type(position - begin());
@@ -326,6 +348,7 @@ namespace ft
 			*last = val;
 			return (iterator(last));
 		}
+
 		void insert(iterator position, size_type n, const value_type &val)
 		{
 			if (n == 0)
@@ -347,6 +370,7 @@ namespace ft
 				// new (last--) value_type(val);
 				*last-- = val;
 		}
+
 		template <class InputIterator>
 		void insert(iterator position, InputIterator first,
 					typename enable_if<!is_integral<InputIterator>::value, InputIterator>::type last)
@@ -370,6 +394,7 @@ namespace ft
 			while (n--)
 				_impl._data[offset++] = *first++;
 		}
+
 		iterator erase(iterator position)
 		{
 			if (position != end() - 1)
@@ -385,6 +410,7 @@ namespace ft
 			get_allocator().destroy(_impl._end_data);
 			return (position);
 		}
+
 		iterator erase(iterator first, iterator last)
 		{
 			if (first != last)
@@ -406,10 +432,12 @@ namespace ft
 			}
 			return (first);
 		}
+		
 		void swap(vector &x)
 		{
 			std::swap(_impl, x._impl);
 		}
+
 		void clear()
 		{
 			for (pointer pos = _impl._data; pos != _impl._end_data; ++pos)
@@ -417,6 +445,7 @@ namespace ft
 
 			_impl._end_data = _impl._data;
 		}
+		
 		Tp_alloc_type &
 		_M_get_Tp_allocator() _GLIBCXX_NOEXCEPT
 		{

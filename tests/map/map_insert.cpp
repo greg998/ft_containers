@@ -29,5 +29,34 @@ int main()
     displayMap(mymap);
     displayMap(anothermap);
 
+    //all insert case test
+    //NS::map<int, int> m;
+    
+    // m[3] = 1;
+    // m[21] = 1;
+    // m[32] = 1;
+    // m.tree_draw("32");
+    // m[15] = 1;
+    // m.tree_draw("15"); // uncle is red -> recolour parent black and grandparent red
+
+    // m[18] = 1;
+    // m.tree_draw("18"); // uncle is black, p is right child of g, x(18) is right child of p -> left rotate gp(3)
+
+    // m[14] = 1;
+    // m.tree_draw("14"); // uncle is black, p is right child of g, x(14) is left child of p -> right rotate p(15) and left rotate gp(3)
+    // ------
+    // m[3] = 1;
+    // m[21] = 1;
+    // m[32] = 1;
+    // m.tree_draw("32");
+    // m[1] = 1;
+    // m.tree_draw("1"); // uncle is red -> recolour parent black and grandparent red
+
+    // m[2] = 1;
+    // m.tree_draw("2"); // uncle is black, p(1) is left child of g, x(2) is right child of p -> left rotate p(1) and right rotate gp(3)
+
+    // m[0] = 1;
+    // m.tree_draw("0"); // uncle is black, p(1) is left child of g, x(0) is left child of p -> right rotate gp(3)
+
     return 0;
 }

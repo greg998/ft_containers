@@ -1,7 +1,6 @@
 #ifndef RANDOM_ACCESS_ITERATOR
 #define RANDOM_ACCESS_ITERATOR
 #include "iterator_traits.tpp"
-#include "iterator_tags.hpp"
 namespace ft
 {
 	
@@ -24,6 +23,7 @@ namespace ft
 			: _current(Iterator())
 		{
 		}
+
 		explicit random_access_iterator(const Iterator &src)
 			: _current(src)
 		{
@@ -117,6 +117,7 @@ namespace ft
 	{
 		return (lhs.base() - rhs.base());
 	}
+	
 	template <typename Iterator, typename Container>
 	inline typename random_access_iterator<Iterator, Container>::difference_type
 	operator-(const random_access_iterator<Iterator, Container> &lhs,
