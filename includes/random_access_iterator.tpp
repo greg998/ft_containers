@@ -111,7 +111,7 @@ namespace ft
 	};
 	// allow difference_type x = it - it but it + it forbidden
 	template <typename IteratorL, typename IteratorR, typename Container>
-	inline typename random_access_iterator<IteratorL, Container>::difference_type
+	typename random_access_iterator<IteratorL, Container>::difference_type
 	operator-(const random_access_iterator<IteratorL, Container> &lhs,
 			  const random_access_iterator<IteratorR, Container> &rhs)
 	{
@@ -119,7 +119,7 @@ namespace ft
 	}
 	
 	template <typename Iterator, typename Container>
-	inline typename random_access_iterator<Iterator, Container>::difference_type
+	typename random_access_iterator<Iterator, Container>::difference_type
 	operator-(const random_access_iterator<Iterator, Container> &lhs,
 			  const random_access_iterator<Iterator, Container> &rhs)
 	{
@@ -127,7 +127,7 @@ namespace ft
 	}
 
 	template <typename Iterator, typename Container>
-	inline random_access_iterator<Iterator, Container>
+	random_access_iterator<Iterator, Container>
 	operator+(typename random_access_iterator<Iterator, Container>::difference_type lhs,
 			  const random_access_iterator<Iterator, Container> &rhs)
 	{
@@ -135,7 +135,7 @@ namespace ft
 	}
 	//---------------
 	template <typename IteratorL, typename IteratorR, typename Container>
-	inline bool
+	bool
 	operator==(const random_access_iterator<IteratorL, Container> &lhs,
 			   const random_access_iterator<IteratorR, Container> &rhs)
 	{
@@ -143,7 +143,7 @@ namespace ft
 	}
 
 	template <typename _Iterator, typename Container>
-	inline bool
+	bool
 	operator==(const random_access_iterator<_Iterator, Container> &lhs,
 			   const random_access_iterator<_Iterator, Container> &rhs)
 	{
@@ -151,7 +151,7 @@ namespace ft
 	}
 
 	template <typename IteratorL, typename IteratorR, typename Container>
-	inline bool
+	bool
 	operator!=(const random_access_iterator<IteratorL, Container> &lhs,
 			   const random_access_iterator<IteratorR, Container> &rhs)
 	{
@@ -159,16 +159,15 @@ namespace ft
 	}
 
 	template <typename _Iterator, typename Container>
-	inline bool
+	bool
 	operator!=(const random_access_iterator<_Iterator, Container> &lhs,
 			   const random_access_iterator<_Iterator, Container> &rhs)
 	{
 		return (lhs.base() != rhs.base());
 	}
 
-	// Random access iterator requirements
 	template <typename IteratorL, typename IteratorR, typename Container>
-	inline bool
+	bool
 	operator<(const random_access_iterator<IteratorL, Container> &lhs,
 			  const random_access_iterator<IteratorR, Container> &rhs)
 	{
@@ -176,7 +175,7 @@ namespace ft
 	}
 
 	template <typename _Iterator, typename Container>
-	inline bool
+	bool
 	operator<(const random_access_iterator<_Iterator, Container> &lhs,
 			  const random_access_iterator<_Iterator, Container> &rhs)
 	{
@@ -184,7 +183,7 @@ namespace ft
 	}
 
 	template <typename IteratorL, typename IteratorR, typename Container>
-	inline bool
+	bool
 	operator>(const random_access_iterator<IteratorL, Container> &lhs,
 			  const random_access_iterator<IteratorR, Container> &rhs)
 	{
@@ -192,7 +191,7 @@ namespace ft
 	}
 
 	template <typename _Iterator, typename Container>
-	inline bool
+	bool
 	operator>(const random_access_iterator<_Iterator, Container> &lhs,
 			  const random_access_iterator<_Iterator, Container> &rhs)
 	{
@@ -200,7 +199,7 @@ namespace ft
 	}
 
 	template <typename IteratorL, typename IteratorR, typename Container>
-	inline bool
+	bool
 	operator<=(const random_access_iterator<IteratorL, Container> &lhs,
 			   const random_access_iterator<IteratorR, Container> &rhs)
 	{
@@ -208,7 +207,7 @@ namespace ft
 	}
 
 	template <typename _Iterator, typename Container>
-	inline bool
+	bool
 	operator<=(const random_access_iterator<_Iterator, Container> &lhs,
 			   const random_access_iterator<_Iterator, Container> &rhs)
 	{
@@ -216,7 +215,7 @@ namespace ft
 	}
 
 	template <typename IteratorL, typename IteratorR, typename Container>
-	inline bool
+	bool
 	operator>=(const random_access_iterator<IteratorL, Container> &lhs,
 			   const random_access_iterator<IteratorR, Container> &rhs)
 	{
@@ -224,7 +223,7 @@ namespace ft
 	}
 
 	template <typename _Iterator, typename Container>
-	inline bool
+	bool
 	operator>=(const random_access_iterator<_Iterator, Container> &lhs,
 			   const random_access_iterator<_Iterator, Container> &rhs)
 	{

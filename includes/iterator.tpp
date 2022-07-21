@@ -226,7 +226,6 @@ namespace ft
 		return (rhs.base() - lhs.base());
 	}
 
-	// only random access iterator overload '-'
 	template <typename RandomAccessIterator>
 	inline typename iterator_traits<RandomAccessIterator>::difference_type
 	_distance(RandomAccessIterator first, RandomAccessIterator last,

@@ -68,12 +68,12 @@ namespace ft
             c.pop_back();
         }
 
-        inline friend bool
+        friend bool
         operator==(const stack<T, Container> &lhs, const stack<T, Container> &rhs)
         {
             return (lhs.c == rhs.c);
         }
-        inline friend bool
+        friend bool
         operator<(const stack<T, Container> &lhs, const stack<T, Container> &rhs)
         {
             return (lhs.c < rhs.c);
@@ -81,28 +81,28 @@ namespace ft
     };
 
     template <typename T, typename Container>
-    inline bool
+    bool
     operator!=(const stack<T, Container> &lhs, const stack<T, Container> &rhs)
     {
         return (!(lhs == rhs));
     }
 
     template <typename T, typename Container>
-    inline bool
+    bool
     operator<=(const stack<T, Container> &lhs, const stack<T, Container> &rhs)
     {
         return (!(rhs < lhs));
     }
 
     template <typename T, typename Container>
-    inline bool
+    bool
     operator>(const stack<T, Container> &lhs, const stack<T, Container> &rhs)
     {
         return (rhs < lhs);
     }
 
     template <typename T, typename Container>
-    inline bool
+    bool
     operator>=(const stack<T, Container> &lhs, const stack<T, Container> &rhs)
     {
         return (!(lhs < rhs));

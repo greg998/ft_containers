@@ -104,8 +104,8 @@ namespace ft
 
 		~vector()
 		{
-			for (size_type i = 0; i < size(); ++i)
-				get_allocator().destroy(_impl._data + i);
+			for (pointer p = _impl._data; p != _impl._end_data; ++p)
+				get_allocator().destroy(p);
 			get_allocator().deallocate(_impl._data, capacity());
 		}
 
@@ -203,21 +203,20 @@ namespace ft
 				throw std::length_error("vector::reserve");
 			if (capacity() < n)
 			{
-				pointer newData = get_allocator().allocate(n);
-				int old_size = size();
-				pointer tmp = newData;
-				for (iterator it = begin(); it != end(); ++it, ++tmp)
+				pointer newData (get_allocator().allocate(n));
+				pointer newDataEnd (newData);
+				int old_size (size());
+				for (iterator it = begin(); it != end(); ++it, ++newDataEnd)
 				{
-					// get_allocator().construct(tmp, *it);
-					::new (tmp) value_type(*it);
-					// get_allocator().destroy(_impl._data + i);
+					::new (newDataEnd) value_type(*it);
+					get_allocator().destroy(it.base());
 				}
-				for (int i = 0; i < old_size; ++i)
-					get_allocator().destroy(_impl._data + i);
+				//for (int i = 0; i < old_size; ++i)
+				//	get_allocator().destroy(_impl._data + i);
 				if (_impl._data)
 					get_allocator().deallocate(_impl._data, old_size);
 				_impl._data = newData;
-				_impl._end_data = newData + old_size;
+				_impl._end_data = newDataEnd;
 				_impl._end_of_storage = _impl._data + n;
 			}
 		}
@@ -301,9 +300,7 @@ namespace ft
 			pointer data = _impl._data;
 			while (first != last)
 			{
-				// get_allocator().destroy(data);
 				::new (data) value_type(*first);
-				// get_allocator().construct(data, *first);
 				first++;
 				data++;
 			}
@@ -311,9 +308,11 @@ namespace ft
 
 		void push_back(const value_type &val)
 		{
-			if (size() == capacity())
+			if (_impl._end_of_storage == _impl._end_data)
 				reserve(std::max(capacity() * 2, size_type(1)));
-			*_impl._end_data++ = val;
+			//new (_impl._end_data++) value_type(val);
+			_M_get_Tp_allocator().construct(_impl._end_data++, val);
+			//*_impl._end_data++ = val;
 		}
 
 		void pop_back()
@@ -337,7 +336,6 @@ namespace ft
 				for (; last != pos; --last)
 					*last = *(last - 1);
 			}
-			//::new (last) value_type(val);
 			*last = val;
 			return (iterator(last));
 		}
@@ -360,7 +358,6 @@ namespace ft
 					*last = *(last - n);
 			}
 			while (n--)
-				// new (last--) value_type(val);
 				*last-- = val;
 		}
 
@@ -439,44 +436,43 @@ namespace ft
 			_impl._end_data = _impl._data;
 		}
 		
-		Tp_alloc_type &
-		_M_get_Tp_allocator() _GLIBCXX_NOEXCEPT
-		{
-			return this->_impl;
-		}
-
-		const Tp_alloc_type &
-		_M_get_Tp_allocator() const _GLIBCXX_NOEXCEPT
-		{
-			return this->_impl;
-		}
-
 		allocator_type
-		get_allocator() const _GLIBCXX_NOEXCEPT
+		get_allocator() const
 		{
 			return allocator_type(_M_get_Tp_allocator());
 		}
 
 	private:
+		Tp_alloc_type &
+		_M_get_Tp_allocator()
+		{
+			return this->_impl;
+		}
+
+		const Tp_alloc_type &
+		_M_get_Tp_allocator() const
+		{
+			return this->_impl;
+		}
 		using Base::_impl;
 	};
 
 	template <typename T, typename Alloc>
-	inline bool
+	bool
 	operator==(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs)
 	{
 		return (lhs.size() == rhs.size() && ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
 	}
 
 	template <typename T, typename Alloc>
-	inline bool
+	bool
 	operator!=(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs)
 	{
 		return !(lhs == rhs);
 	}
 
 	template <typename T, typename Alloc>
-	inline bool
+	bool
 	operator<(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs)
 	{
 		return (ft::lexicographical_compare(lhs.begin(), lhs.end(),
@@ -484,28 +480,28 @@ namespace ft
 	}
 
 	template <typename T, typename Alloc>
-	inline bool
+	bool
 	operator<=(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs)
 	{
 		return (!(rhs < lhs));
 	}
 
 	template <typename T, typename Alloc>
-	inline bool
+	bool
 	operator>(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs)
 	{
 		return (rhs < lhs);
 	}
 
 	template <typename T, typename Alloc>
-	inline bool
+	bool
 	operator>=(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs)
 	{
 		return (!(lhs < rhs));
 	}
 
 	template <typename T, typename Alloc>
-	inline void
+	void
 	swap(vector<T, Alloc> &x, vector<T, Alloc> &y)
 	{
 		x.swap(y);
