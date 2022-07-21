@@ -5,8 +5,13 @@
 #define NS FT
 #endif
 
+#include <iostream>
+
+#ifndef STD
 #include "map.tpp"
+#else
 #include <map>
+#endif
 
 template <class Key,     // map::key_type
           class T,       // map::mapped_type

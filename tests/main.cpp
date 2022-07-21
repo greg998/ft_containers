@@ -28,6 +28,9 @@ int main(int argc, char **argv)
         tester.addTest("vector", "vect_swap.cpp", true);
         tester.addTest("vector", "vect_clear.cpp", true);
         tester.addTest("vector", "vect_relation_op.cpp", true);
+        tester.addTest("vector", "vect_ite.cpp", true);
+        tester.addTest("vector", "vect_ite_const.cpp", true);
+        tester.addTest("vector", "vect_perf.cpp", true);
 
         tester.addTest("stack", "stack_constructor.cpp", true);
         tester.addTest("stack", "stack_empty.cpp", true);
@@ -35,6 +38,7 @@ int main(int argc, char **argv)
         tester.addTest("stack", "stack_top.cpp", true);
         tester.addTest("stack", "stack_push_pop.cpp", true);
         tester.addTest("stack", "stack_relation_op.cpp", true);
+        tester.addTest("stack", "stack_perf.cpp", true);
 
         tester.addTest("map", "map_constructor.cpp", true);
         tester.addTest("map", "map_operator=.cpp", true);
@@ -55,6 +59,9 @@ int main(int argc, char **argv)
         tester.addTest("map", "map_lower_upper_bound.cpp", true);
         tester.addTest("map", "map_equal_range.cpp", true);
         tester.addTest("map", "map_relation_op.cpp", true);
+        tester.addTest("map", "map_ite.cpp", true);
+        tester.addTest("map", "map_ite_const.cpp", true);
+        tester.addTest("map", "map_perf.cpp", true);
 
         tester.addTest("set", "set_constructor.cpp", true);
         tester.addTest("set", "set_operator=.cpp", true);
@@ -74,6 +81,7 @@ int main(int argc, char **argv)
         tester.addTest("set", "set_lower_upper_bound.cpp", true);
         tester.addTest("set", "set_equal_range.cpp", true);
         tester.addTest("set", "set_relation_op.cpp", true);
+        tester.addTest("set", "set_perf.cpp", true);
 
         if (argc == 2)
 #ifndef CMP

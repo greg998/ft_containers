@@ -5,8 +5,13 @@
 #define NS FT
 #endif
 
+#include <iostream>
+
+#ifndef STD
 #include "vector.tpp"
+#else
 #include <vector>
+#endif
 
 template <class T,
           class Alloc>

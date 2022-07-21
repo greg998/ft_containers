@@ -4,7 +4,6 @@
 #include <iostream>
 #include "Rb_tree.tpp"
 #include "iterator.tpp"
-#include "Rb_tree_iterator.tpp"
 #include "utility.tpp"
 
 namespace ft
@@ -58,7 +57,6 @@ namespace ft
         typedef typename tree_type::const_reference const_reference;
         typedef typename tree_type::pointer pointer;
         typedef typename tree_type::const_pointer const_pointer;
-        // iterator
         typedef typename tree_type::const_iterator iterator;
         typedef typename tree_type::const_iterator const_iterator;
         typedef typename tree_type::const_reverse_iterator reverse_iterator;

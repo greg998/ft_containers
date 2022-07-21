@@ -15,6 +15,8 @@ Tester::test_vect::iterator Tester::runTest(const std::string &category, const s
     if (it == _tests.end())
         throw TestException("Category " + category + " not found");
     test_vect::iterator it2 = find(it->second.begin(), it->second.end(), fname);
+    if (it2 == it->second.end())
+        throw TestException("Test " + fname + " not found");
     if (it2->compile(ns))
         it2->exec();
     return (it2);
@@ -74,12 +76,12 @@ const char *Tester::sigToStr(int sig)
 
 void Tester::printLineResult(const std::string &category, test_vect::iterator toTest, const UnitTest &ref)
 {
-    std::cout << toTest->getFname() << ": ";
+    std::cout << std::left << std::setw(25) << toTest->getFname() << ": ";
     std::cout << "compile: ";
     if (toTest->compile())
         std::cout << ("[OK]");
     else
-        std::cout << ("[FAIL]");
+        std::cout << ("[KO]");
     if (toTest->getSig())
     {
         std::cout << " " << sigToStr(toTest->getSig());
@@ -87,14 +89,13 @@ void Tester::printLineResult(const std::string &category, test_vect::iterator to
     else
     {
         std::cout << " diff:";
-        std::cout << ref.getOutput(); //??
         if (toTest->getOutput() == ref.getOutput())
         {
             _passed[category]++;
             std::cout << " [OK] ";
         }
         else
-            std::cout << " [BAD] ";
+            std::cout << " [KO] ";
         std::cout << toTest->getExecTime() << "s ";
         std::cout << ref.getExecTime() << "s ";
     }
@@ -136,5 +137,7 @@ void Tester::compareAllTo(const std::string &ns)
     for (category_map::iterator it = _tests.begin(); it != _tests.end(); ++it)
     {
         compareCategoryTo(it->first, ns);
+        _refTime = 0;
+        _testTime = 0;
     }
 }

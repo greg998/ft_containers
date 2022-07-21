@@ -1,23 +1,23 @@
 #ifndef TESTS_TPP
 #define TESTS_TPP
 
-# ifndef NS
-#  define NS ft
-# endif
-
-#include "utility.tpp"
-#include <set>
-#include <iostream>
-
-#if NS==ft
-#include "set.tpp"
+#ifndef NS
+#define NS ft
 #endif
 
-template < class T,
-           class Compare,
-           class Alloc
-           >
-void	displaySet(const NS::set<T, Compare, Alloc> &c)
+#include <iostream>
+
+#ifndef STD
+#include "set.tpp"
+#include "utility.tpp"
+#else
+#include <set>
+#endif
+
+template <class T,
+		  class Compare,
+		  class Alloc>
+void displaySet(const NS::set<T, Compare, Alloc> &c)
 {
 	std::cout << "----------------\n";
 	std::cout << "max_size " << c.max_size() << "\n";

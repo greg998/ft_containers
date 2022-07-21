@@ -5,6 +5,7 @@
 #include <vector>
 #include <map>
 #include <algorithm>
+#include <iomanip>
 
 #ifndef NS
 #define NS "ft"

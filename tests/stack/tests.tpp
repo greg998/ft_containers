@@ -5,10 +5,16 @@
 #  define NS FT
 # endif
 
-#include "stack.tpp"
-#include <stack>
+#include <iostream>
 #include <vector>
 #include <deque>
+
+#ifndef STD
+#include "stack.tpp"
+#else
+#include <stack>
+
+#endif
 
 template <class T,
           class Container>

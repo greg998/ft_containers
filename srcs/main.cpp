@@ -123,6 +123,6 @@ int main()
   ft::map<char, int> ve;
   ft::map<char, int>::const_iterator itx (ve.begin());
   ft::map<char, int>::const_iterator te(itx);
-  std::map<int>
+  std::allocator
   return 0;
 }

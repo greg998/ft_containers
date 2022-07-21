@@ -8,11 +8,6 @@
 
 namespace ft
 {
-	// template <typename T>
-	// struct rebind
-	// {
-	// 	typedef std::allocator<T> other;
-	// };
 	template <class T, typename Alloc>
 	class vector_base
 	{
@@ -57,11 +52,10 @@ namespace ft
 		typedef ptrdiff_t difference_type;
 		typedef Alloc allocator_type;
 		typedef typename vector_base<T, Alloc>::Tp_alloc_type Tp_alloc_type;
-		typedef __gnu_cxx::__alloc_traits<Tp_alloc_type> _Alloc_traits;
-		typedef typename _Alloc_traits::reference reference;
-		typedef typename _Alloc_traits::const_reference const_reference;
+		typedef typename Tp_alloc_type::reference reference;
+		typedef typename Tp_alloc_type::const_reference const_reference;
 		typedef typename Base::pointer pointer;
-		typedef typename _Alloc_traits::const_pointer const_pointer;
+		typedef typename Tp_alloc_type::const_pointer const_pointer;
 		typedef random_access_iterator<pointer, vector> iterator;
 		typedef random_access_iterator<const_pointer, vector> const_iterator;
 		typedef ft::reverse_iterator<iterator> reverse_iterator;
@@ -79,9 +73,10 @@ namespace ft
 			_impl._data = _M_get_Tp_allocator().allocate(n);
 			_impl._end_data = _impl._data;
 			while (n--)
-				_Alloc_traits::construct(_M_get_Tp_allocator(), _impl._end_data++, val);
+				_M_get_Tp_allocator().construct(_impl._end_data++, val);
 			_impl._end_of_storage = _impl._end_data;
 		}
+		
 		template <class InputIterator>
 		vector(InputIterator first,
 			   typename enable_if<!is_integral<InputIterator>::value, InputIterator>::type last,
@@ -92,9 +87,7 @@ namespace ft
 			_impl._data = _M_get_Tp_allocator().allocate(n);
 			_impl._end_data = _impl._data;
 			while (n--)
-				// different than *impl.end_data++ = *first++
 				::new (_impl._end_data++) value_type(*first++);
-			// std::_Construct(_impl._end_data++, *first++);
 			_impl._end_of_storage = _impl._end_data;
 		}
 
