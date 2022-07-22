@@ -16,8 +16,8 @@ namespace ft
 		typedef typename Alloc::template rebind<T>::other Tp_alloc_type;
 		typedef typename Tp_alloc_type::pointer pointer;
 		vector_base(){};
-		vector_base(const allocator_type &__a)
-			: _impl(__a){};
+		vector_base(const allocator_type &alloc)
+			: _impl(alloc){};
 
 	protected:
 		class vector_impl : public Tp_alloc_type
@@ -30,8 +30,8 @@ namespace ft
 				: Tp_alloc_type(), _data(), _end_data(), _end_of_storage()
 			{
 			}
-			vector_impl(Tp_alloc_type const &__a)
-				: Tp_alloc_type(__a),
+			vector_impl(Tp_alloc_type const &alloc)
+				: Tp_alloc_type(alloc),
 				  _data(),
 				  _end_data(),
 				  _end_of_storage()
@@ -70,10 +70,10 @@ namespace ft
 						const allocator_type &alloc = allocator_type())
 			: Base(alloc)
 		{
-			_impl._data = _M_get_Tp_allocator().allocate(n);
+			_impl._data = _impl.allocate(n);
 			_impl._end_data = _impl._data;
 			while (n--)
-				_M_get_Tp_allocator().construct(_impl._end_data++, val);
+				_impl.construct(_impl._end_data++, val);
 			_impl._end_of_storage = _impl._end_data;
 		}
 		
@@ -84,7 +84,7 @@ namespace ft
 			: Base(alloc)
 		{
 			difference_type n = ft::distance(first, last);
-			_impl._data = _M_get_Tp_allocator().allocate(n);
+			_impl._data = _impl.allocate(n);
 			_impl._end_data = _impl._data;
 			while (n--)
 				::new (_impl._end_data++) value_type(*first++);
@@ -92,10 +92,10 @@ namespace ft
 		}
 
 		vector(const vector &x)
-			: Base(x._M_get_Tp_allocator())
+			: Base(x._impl)
 		{
 			size_type n = x.size();
-			_impl._data = _M_get_Tp_allocator().allocate(n);
+			_impl._data = _impl.allocate(n);
 			_impl._end_data = _impl._data;
 			for (const_iterator it = x.begin(); it != x.end(); ++it)
 				::new (_impl._end_data++) value_type(*it);
@@ -105,8 +105,8 @@ namespace ft
 		~vector()
 		{
 			for (pointer p = _impl._data; p != _impl._end_data; ++p)
-				get_allocator().destroy(p);
-			get_allocator().deallocate(_impl._data, capacity());
+				_impl.destroy(p);
+			_impl.deallocate(_impl._data, capacity());
 		}
 
 		vector &operator=(const vector &x)
@@ -165,7 +165,7 @@ namespace ft
 
 		size_type max_size() const
 		{
-			return (get_allocator().max_size());
+			return (_impl.max_size());
 		}
 
 		void resize(size_type n, value_type val = value_type())
@@ -175,7 +175,7 @@ namespace ft
 			{
 				while (size-- != n)
 				{
-					get_allocator().destroy(_impl._end_data--);
+					_impl.destroy(_impl._end_data--);
 				}
 			}
 			else if (n > size)
@@ -203,18 +203,16 @@ namespace ft
 				throw std::length_error("vector::reserve");
 			if (capacity() < n)
 			{
-				pointer newData (get_allocator().allocate(n));
+				pointer newData (_impl.allocate(n));
 				pointer newDataEnd (newData);
 				int old_size (size());
-				for (iterator it = begin(); it != end(); ++it, ++newDataEnd)
+				for (pointer p(_impl._data); p != _impl._end_data; ++p, ++newDataEnd)
 				{
-					::new (newDataEnd) value_type(*it);
-					get_allocator().destroy(it.base());
+					::new (newDataEnd) value_type(*p);
+					//_impl.construct(newDataEnd, *p);
+					_impl.destroy(p);
 				}
-				//for (int i = 0; i < old_size; ++i)
-				//	get_allocator().destroy(_impl._data + i);
-				if (_impl._data)
-					get_allocator().deallocate(_impl._data, old_size);
+				_impl.deallocate(_impl._data, old_size);
 				_impl._data = newData;
 				_impl._end_data = newDataEnd;
 				_impl._end_of_storage = _impl._data + n;
@@ -247,36 +245,36 @@ namespace ft
 
 		reference front()
 		{
-			return (*begin());
+			return (*_impl._data);
 		}
 
 		const_reference front() const
 		{
-			return (*begin());
+			return (*_impl._data);
 		}
 
 		reference back()
 		{
-			return (*(end() - 1));
+			return (*(_impl._end_data - 1));
 		}
 
 		const_reference back() const
 		{
-			return (*(end() - 1));
+			return (*(_impl._end_data - 1));
 		}
 		
 		void destroy_data(void)
 		{
 			for (size_type i = 0; i < size(); ++i)
-				get_allocator().destroy(_impl._data + i);
+				_impl.destroy(_impl._data + i);
 		}
 
 		void reallocate_data(size_type n)
 		{
 			if (n > capacity())
 			{
-				pointer newData = get_allocator().allocate(n);
-				get_allocator().deallocate(_impl._data, capacity());
+				pointer newData = _impl.allocate(n);
+				_impl.deallocate(_impl._data, capacity());
 				_impl._data = newData;
 				_impl._end_of_storage = _impl._data + n;
 			}
@@ -288,7 +286,7 @@ namespace ft
 			destroy_data();
 			reallocate_data(n);
 			while (n--)
-				get_allocator().construct(_impl._data + n, val);
+				_impl.construct(_impl._data + n, val);
 		}
 
 		template <class InputIterator>
@@ -311,20 +309,20 @@ namespace ft
 			if (_impl._end_of_storage == _impl._end_data)
 				reserve(std::max(capacity() * 2, size_type(1)));
 			//new (_impl._end_data++) value_type(val);
-			_M_get_Tp_allocator().construct(_impl._end_data++, val);
-			//*_impl._end_data++ = val;
+			//_impl.construct(_impl._end_data++, val);
+			*_impl._end_data++ = val;
 		}
 
 		void pop_back()
 		{
 			--_impl._end_data;
-			get_allocator().destroy(_impl._end_data);
+			_impl.destroy(_impl._end_data);
 		}
 
 		iterator insert(iterator position, const value_type &val)
 		{
 			difference_type offset = difference_type(position - begin());
-			if (size() == capacity())
+			if (_impl._end_of_storage == _impl._end_data)
 			{
 				reserve(std::max(capacity() * 2, size_type(1)));
 			}
@@ -345,18 +343,17 @@ namespace ft
 			if (n == 0)
 				return;
 			difference_type offset = difference_type(position - begin());
-			if (size() + n > capacity())
+			size_type x (size() + n);
+				
+			if (x > capacity())
 			{
-				reserve(std::max(std::max(capacity() * 2, size_type(1)), size() + n));
+				reserve(x);
 			}
 			_impl._end_data += n;
 			pointer last = _impl._end_data - 1;
-			if (size() > n)
-			{
-				pointer pos = _impl._data + offset + n - 1;
-				for (; last != pos; --last)
-					*last = *(last - n);
-			}
+			pointer pos = _impl._data + offset + n - 1;
+			for (; last != pos; --last)
+				*last = *(last - n);
 			while (n--)
 				*last-- = val;
 		}
@@ -375,12 +372,9 @@ namespace ft
 			}
 			_impl._end_data += n;
 			pointer lastp = _impl._end_data - 1;
-			if (size() > n)
-			{
-				pointer pos = _impl._data + offset + n - 1;
-				for (; lastp != pos; --lastp)
-					*lastp = *(lastp - n);
-			}
+			pointer pos = _impl._data + offset + n - 1;
+			for (; lastp != pos; --lastp)
+				*lastp = *(lastp - n);
 			while (n--)
 				_impl._data[offset++] = *first++;
 		}
@@ -389,15 +383,15 @@ namespace ft
 		{
 			if (position != end() - 1)
 			{
-				iterator first = position + 1;
-				iterator last = end();
-				iterator result = position;
+				iterator first (position + 1);
+				iterator last (end());
+				iterator result (position);
 
 				for (; first != last; ++result, ++first)
 					*result = *first;
 			}
 			--_impl._end_data;
-			get_allocator().destroy(_impl._end_data);
+			_impl.destroy(_impl._end_data);
 			return (position);
 		}
 
@@ -418,7 +412,7 @@ namespace ft
 				pointer pt = _impl._end_data - n;
 				_impl._end_data -= n;
 				while (n--)
-					get_allocator().destroy(pt++);
+					_impl.destroy(pt++);
 			}
 			return (first);
 		}
@@ -431,7 +425,7 @@ namespace ft
 		void clear()
 		{
 			for (pointer pos = _impl._data; pos != _impl._end_data; ++pos)
-				get_allocator().destroy(pos);
+				_impl.destroy(pos);
 
 			_impl._end_data = _impl._data;
 		}
@@ -439,21 +433,10 @@ namespace ft
 		allocator_type
 		get_allocator() const
 		{
-			return allocator_type(_M_get_Tp_allocator());
+			return (allocator_type(_impl));
 		}
 
 	private:
-		Tp_alloc_type &
-		_M_get_Tp_allocator()
-		{
-			return this->_impl;
-		}
-
-		const Tp_alloc_type &
-		_M_get_Tp_allocator() const
-		{
-			return this->_impl;
-		}
 		using Base::_impl;
 	};
 

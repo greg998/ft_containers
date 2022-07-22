@@ -34,6 +34,7 @@ int main()
 
 
 	NS::map<char, int>::iterator it2 (it1);
+
 	std::cout << it2->first << "\n";
 
 	return (0);

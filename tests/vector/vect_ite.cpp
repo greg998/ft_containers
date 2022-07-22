@@ -2,7 +2,7 @@
 
 int main()
 {
-	int myints[] = {16, 2, 77, 29, 42};
+	int myints[] = {16, 2, 77, 29, 42, 65};
 	NS::vector<int> myvector(myints, myints + sizeof(myints) / sizeof(int));
 
 
@@ -11,8 +11,6 @@ int main()
 	*it1 = 5;
 	std::cout << *it1 << "\n";
 	it1++;
-	std::cout << *it1 << "\n";
-	it1--;
 	std::cout << *it1 << "\n";
 	it1--;
 	std::cout << *it1 << "\n";

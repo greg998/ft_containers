@@ -9,5 +9,7 @@ int main()
 	
 	for (int i = 0; i < 10000000; ++i)
 		vect.pop_back();
+	std::cout << "good\n";
+	
 	return (0);
 }

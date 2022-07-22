@@ -56,26 +56,10 @@ void Tester::compareTo(const std::string &category, const std::string &fname, co
 
 void Tester::compareTo(test_vect::iterator toTest, const std::string &category, const std::string &ns)
 {
-    UnitTest referee(*toTest);
-    if (referee.compile(ns))
-        referee.exec();
+    UnitTest ref(*toTest);
+    if (ref.compile(ns))
+        ref.exec();
 
-    _testTime += toTest->getExecTime();
-    _refTime += referee.getExecTime();
-    printLineResult(category, toTest, referee);
-}
-
-const char *Tester::sigToStr(int sig)
-{
-    if (sig == SIGBUS)
-        return ("[SIGBUS]");
-    else if (sig == SIGSEGV)
-        return ("[SIGSEGV]");
-    return ("[SIG]");
-}
-
-void Tester::printLineResult(const std::string &category, test_vect::iterator toTest, const UnitTest &ref)
-{
     std::cout << std::left << std::setw(25) << toTest->getFname() << ": ";
     std::cout << "compile: ";
     if (toTest->compile())
@@ -89,9 +73,15 @@ void Tester::printLineResult(const std::string &category, test_vect::iterator to
     else
     {
         std::cout << " diff:";
-        if (toTest->getOutput() == ref.getOutput())
+        if ((toTest->getOutput() == ref.getOutput() && toTest->compile())
+            || (!toTest->compile() && !ref.compile()))
         {
             _passed[category]++;
+            if (toTest->compile() && ref.compile())
+            {
+                _testTime += toTest->getExecTime();
+                _refTime += ref.getExecTime();
+            }
             std::cout << " [OK] ";
         }
         else
@@ -100,6 +90,15 @@ void Tester::printLineResult(const std::string &category, test_vect::iterator to
         std::cout << ref.getExecTime() << "s ";
     }
     std::cout << '\n';
+}
+
+const char *Tester::sigToStr(int sig)
+{
+    if (sig == SIGBUS)
+        return ("[SIGBUS]");
+    else if (sig == SIGSEGV)
+        return ("[SIGSEGV]");
+    return ("[SIG]");
 }
 
 void Tester::compareCategoryTo(const std::string &category, const std::string &ns)
@@ -118,16 +117,15 @@ void Tester::compareCategoryTo(const std::string &category, const std::string &n
     }
     std::cout << _passed[category] << " / " << t.size() << " passed" << std::endl;
     std::cout << NS << " time: " << _testTime << "s " << ns << " time: " << _refTime << "s" << std::endl;
-    double diff = _refTime - _testTime;
 
-    if (diff > 0)
+    if (_testTime <= _refTime)
     {
-        double percent = diff / _refTime;
+        double percent = _refTime / _testTime;
         std::cout << NS << " is " << percent << " times faster than " << ns << std::endl;
     }
     else
     {
-        double percent = std::abs(diff) / _testTime;
+        double percent = _testTime / _refTime;
         std::cout << NS << " is " << percent << " times slower than " << ns << std::endl;
     }
 }

@@ -163,7 +163,7 @@ namespace ft
 
 		pair<iterator, bool> insert(const value_type &val)
 		{
-			return _base_tree.insert(val);
+			return (_base_tree.insert(val));
 		}
 
 		iterator insert(iterator position, const value_type &val)

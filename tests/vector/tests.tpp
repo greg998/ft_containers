@@ -2,7 +2,7 @@
 #define TESTS_HPP
 
 #ifndef NS
-#define NS FT
+#define NS ft
 #endif
 
 #include <iostream>

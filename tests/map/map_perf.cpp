@@ -9,5 +9,6 @@ int main()
 		mymap[i] = i;
 	for (int i = 3000000 / 2; i >= 0; --i)
 		mymap.erase(i);
+	std::cout << "good\n";
 	return 0;
 }

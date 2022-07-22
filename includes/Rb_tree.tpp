@@ -82,6 +82,53 @@ namespace ft
             typedef typename _traits_type_tree::node_type node_type;
             node_type _current;
 
+            void rb_increment()
+            {
+                if (_current->right)
+                {
+                    _current = _current->right;
+                    while (_current->left)
+                        _current = _current->left;
+                }
+                else
+                {
+                    Rb_node *p(_current->parent);
+
+                    while (p->right == _current)
+                    {
+                        _current = p;
+                        p = p->parent;
+                    }
+                    if (_current->right != p)
+                        _current = p;
+                }
+            }
+
+            void rb_decrement()
+            {
+                if (_current->color == RED && _current->parent->parent == _current && _current->right)
+                {
+                    _current = _current->right;
+                }
+                else if (_current->left)
+                {
+                    _current = _current->left;
+                    while (_current->right)
+                        _current = _current->right;
+                }
+                else
+                {
+                    Rb_node *p(_current->parent);
+
+                    while (p->left == _current)
+                    {
+                        _current = p;
+                        p = p->parent;
+                    }
+                    _current = p;
+                }
+            }
+
         public:
             typedef std::bidirectional_iterator_tag iterator_category;
             typedef typename _traits_type::value_type value_type;
@@ -126,28 +173,6 @@ namespace ft
                 return (&static_cast<link_type>(_current)->data);
             }
 
-            void rb_increment()
-            {
-                if (_current->right)
-                {
-                    _current = _current->right;
-                    while (_current->left)
-                        _current = _current->left;
-                }
-                else
-                {
-                    Rb_node *p(_current->parent);
-
-                    while (p->right == _current)
-                    {
-                        _current = p;
-                        p = p->parent;
-                    }
-                    if (_current->right != p)
-                        _current = p;
-                }
-            }
-
             Rb_tree_iterator &operator++()
             {
                 rb_increment();
@@ -161,30 +186,6 @@ namespace ft
                 return (tmp);
             }
 
-            void rb_decrement()
-            {
-                if (_current->color == RED && _current->parent->parent == _current && _current->right)
-                {
-                    _current = _current->right;
-                }
-                else if (_current->left)
-                {
-                    _current = _current->left;
-                    while (_current->right)
-                        _current = _current->right;
-                }
-                else
-                {
-                    Rb_node *p(_current->parent);
-
-                    while (p->left == _current)
-                    {
-                        _current = p;
-                        p = p->parent;
-                    }
-                    _current = p;
-                }
-            }
             Rb_tree_iterator &operator--()
             {
                 rb_decrement();
@@ -343,13 +344,13 @@ namespace ft
                 _destroy(_left(root));
                 _destroy(_right(root));
             }
-            get_allocator().destroy(&root->data);
+            _impl.destroy(root);
         }
 
         void _del_node(link_type root)
         {
-            get_allocator().destroy(&root->data);
-            get_Node_allocator().deallocate(root, 1);
+            _impl.destroy(root);
+            _impl.deallocate(root, 1);
         }
 
         void _destroy_and_deallocate(link_type root)
@@ -382,8 +383,8 @@ namespace ft
 
         link_type _alloc_node(const value_type &val, Rb_node *p, Rb_node *l, Rb_node *r, Rb_tree_color c = RED)
         {
-            link_type newNode = get_Node_allocator().allocate(1);
-            get_Node_allocator().construct(newNode, val);
+            link_type newNode = _impl.allocate(1);
+            _impl.construct(newNode, val);
             newNode->parent = p;
             newNode->left = l;
             newNode->right = r;
@@ -741,17 +742,6 @@ namespace ft
             _impl.node_count--;
         }
 
-        Node_allocator &
-        get_Node_allocator()
-        {
-            return (this->_impl);
-        }
-
-        const Node_allocator &
-        get_Node_allocator() const
-        {
-            return (this->_impl);
-        }
     public:
         Rb_tree(void)
             : _impl()
@@ -839,7 +829,7 @@ namespace ft
 
         size_type max_size() const
         {
-            return (get_Node_allocator().max_size());
+            return (_impl.max_size());
         }
 
         pair<iterator, bool> insert(const value_type &val)
@@ -1104,7 +1094,7 @@ namespace ft
 
         allocator_type get_allocator() const
         {
-            return (allocator_type(get_Node_allocator()));
+            return (allocator_type(_impl));
         }
 
         friend bool

@@ -37,7 +37,6 @@ public:
     void compareTo(test_vect::iterator toTest, const std::string &category, const std::string &ns);
     void compareAllTo(const std::string &ns);
     void compareCategoryTo(const std::string &category, const std::string &ns);
-    void printLineResult(const std::string &category, test_vect::iterator toTest, const UnitTest &ref);
 
     static const char *sigToStr(int sig);
 

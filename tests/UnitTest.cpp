@@ -44,7 +44,7 @@ bool UnitTest::compile(const std::string &ns)
 #endif
         char **const compile_arg = new char *[10];
         std::string define1(("-DNS=" + ns));
-        std::string define2;
+        std::string define2 ("-DTEST");
         if (ns == "std")
             define2 = "-DSTD";
         const char *const compile_arg_const[] = {"c++", "-std=c++98", "-Wall", "-Wextra", "-Werror",
@@ -80,7 +80,8 @@ void UnitTest::exec()
         const char *const arg_const[3] = {"valgrind", "./a.out", NULL};
         memcpy(args, arg_const, sizeof(arg_const));
         execvp("./a.out", args);
-        // execvp("valgrind", args);
+        //std::cerr << _fname << std::endl;
+        //execvp("valgrind", args);
         delete[] args;
         exit(1);
     }
@@ -103,10 +104,12 @@ void UnitTest::readOutput()
     int ret;
     char buf[BUFFER_SIZE];
 
-    bzero(buf, BUFFER_SIZE);
     close(fds[1]);
     while ((ret = read(fds[0], buf, BUFFER_SIZE)) > 0)
+    {
+        buf[ret] = 0;
         _output.append(buf);
+    }
     close(fds[0]);
     if (ret == -1)
         throw TestException("read: " + std::string(strerror(errno)));
